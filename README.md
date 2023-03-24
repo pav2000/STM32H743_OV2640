@@ -50,4 +50,7 @@ The following elements have been added to extend functionality:<br>
 Внешний вид платы ver 1.0: <br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/Board/view01.jpg" width="480" /> <br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/Board/view02.png" width="480" /> <br>
+Фото собранной платы ver 1.0: <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/Board/real01.jpg" width="480" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/Board/real02.jpg" width="480" /> <br>
 <br>
