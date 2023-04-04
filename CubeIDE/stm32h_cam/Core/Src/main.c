@@ -24,7 +24,6 @@
 #include "snow_tiger.h"
 #include "../Src/OV2640/ov2640.h"
 #include "../Src/OV2640/ov2640_regs.h"
-//#include "../Src/OV2640/computer_vision.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,8 +58,8 @@ TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN PV */
 sensor_t sensor = {0};
-Streem_State_t SPI_State;
-Streem_State_t DCMI_State;
+//Streem_State_t SPI_State;
+//Streem_State_t DCMI_State;
 //defined in sensor.h
 
 #if defined RGB565_128X128
@@ -73,7 +72,7 @@ __attribute__((section(".frame_buffer")))int8_t imag_b0[RGB565_160X160_BUF_SIZE]
 __attribute__((section(".frame_buffer")))int8_t imag_b1[RGB565_160X160_BUF_SIZE] = {0};
 __attribute__((section(".frame_buffer")))int8_t imag_b2[RGB565_160X160_BUF_SIZE] = {0};
 #elif defined RGB565_QVGA
-int8_t imag[RGB565_QVGA_BUF_SIZE] = {0};
+__attribute__((section(".frame_buffer")))int8_t imag_b0[RGB565_QVGA_BUF_SIZE] = {0};
 #elif defined RGB565_VGA
 int8_t imag[RGB565_VGA_BUF_SIZE] = {0};
 #endif
@@ -125,7 +124,10 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  mySystemClock_Config();
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_DCMI_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -144,148 +146,39 @@ int main(void)
   MX_I2C3_Init();
   MX_RTC_Init();
   MX_CRC_Init();
-  MX_TIM6_Init();
+//  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-
 
    HAL_GPIO_WritePin(RST_CAM_GPIO_Port, RST_CAM_Pin, GPIO_PIN_SET);
    HAL_GPIO_WritePin(PWDN_CAM_GPIO_Port, PWDN_CAM_Pin, GPIO_PIN_RESET);
    sensor_setting(&hi2c3);
 
-
   ILI9341_Init();
- // HAL_GPIO_WritePin(LED_BOARD_GPIO_Port, LED_BOARD_Pin, GPIO_PIN_RESET);    // Установить светодиод  1
-  HAL_GPIO_WritePin(PWDN_TFT_GPIO_Port, PWDN_TFT_Pin, GPIO_PIN_RESET);    // Включить подсветку дисплея
-  ILI9341_FillScreen(GREEN);
+//  HAL_GPIO_WritePin(LED_BOARD_GPIO_Port, LED_BOARD_Pin, GPIO_PIN_RESET); // Установить светодиод  1
+  HAL_GPIO_WritePin(PWDN_TFT_GPIO_Port, PWDN_TFT_Pin, GPIO_PIN_RESET);     // Включить подсветку дисплея
+  ILI9341_FillScreen(WHITE);
   ILI9341_SetRotation(SCREEN_HORIZONTAL_1);
-  ILI9341_DrawText("Counting multiple segments at once", FONT2, 10, 200, BLACK, WHITE);
+  ILI9341_DrawHLine(0, 225, 320, RED);
 
-   HAL_TIM_Base_Start_IT(&htim6);
-   HAL_TIM_Base_Start(&htim6);
+  ILI9341_DrawText("Start testing", FONT2, 2, 226, BLACK, WHITE);
 
-  /* IMAGE EXAMPLE */
-  /*
-   		ILI9341_FillScreen(WHITE);
-  		ILI9341_SetRotation(SCREEN_HORIZONTAL_2);
-  		ILI9341_DrawText("RGB Picture", FONT3, 10, 10, RED, YELLOW);
-  		ILI9341_DrawText("TIGER", FONT3, 10, 30, BLACK, WHITE);
-  		HAL_Delay(2000);
-  	//	int t1=HAL_GetTick();
-  		ILI9341_DrawImage(snow_tiger, SCREEN_VERTICAL_2);
-  	//	ILI9341_SetRotation(SCREEN_VERTICAL_1);
-  	//	t1=HAL_GetTick()-t1;
-  	//	char buf[32];
-  	//	sprintf(buf,"time=%d",t1);
-  	//	ILI9341_DrawText(buf, FONT3, 10, 10, BLACK, WHITE);
-  		HAL_Delay(5000);
-*/
+ //  HAL_TIM_Base_Start_IT(&htim6);
+ //  HAL_TIM_Base_Start(&htim6);
 
 
-/*
-
-    int8_t t=0;
-   while(1){
-    ILI9341_SetRotation(SCREEN_VERTICAL_2);
-    ILI9341_SetAddress(0,0,ILI9341_SCREEN_HEIGHT,ILI9341_SCREEN_WIDTH);
-  	HAL_GPIO_WritePin(LCD_DC_PORT, LCD_DC_PIN, GPIO_PIN_SET);	//data
-  	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, GPIO_PIN_RESET);	//select
-  	int t1=HAL_GetTick();
-  	uint8_t test = 0;
- // 	HAL_SPI_Transmit(HSPI_INSTANCE, &test, 1, 1000);
-
-  	if (t==0){
-  	if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE,snow_tiger,65000)!= HAL_OK){ ILI9341_DrawText("ERROR", FONT3, 10, 20, BLACK, WHITE);}
-  	t=1;
-  	}
-  	else {
-  	 	if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE,snow_tiger+65000,65000)!= HAL_OK){ ILI9341_DrawText("ERROR", FONT3, 10, 20, BLACK, WHITE);}
-  	  	t=0;
-  	}
-  	while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);
-
-//	HAL_SPI_Transmit(HSPI_INSTANCE, &snow_tiger+65000, 65000, 1000);
-//  	if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE,snow_tiger+65000+1,65000)!= HAL_OK){ ILI9341_DrawText("ERROR", FONT3, 10, 20, BLACK, WHITE);}
-  	t1=HAL_GetTick()-t1;
-  	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, GPIO_PIN_SET);	//deselect//
-	char buf[32];
-	sprintf(buf,"time=%d",t1);
-	ILI9341_DrawText(buf, FONT3, 10, 150, BLACK, WHITE);
-   }
-*/
-
-  DCMI_State = REDY;
-  SPI_State = REDY;
-  uint8_t order = 0;
-
-  int8_t *hdmi_buff_pointer;
-  int8_t *spi_buff_pointer;
-  int8_t *ai_buff_pointer;
+  uint32_t old_time, fps;
+  char buf[64];
    while (1)
     {
-	 /*
-	   if(DCMI_State == REDY && SPI_State == REDY)
-	 	  {
-	 		  switch(order){
-	 		  case 0:
-	 			  hdmi_buff_pointer = imag_b0;
-	 			  spi_buff_pointer = imag_b1;
-	 			  ai_buff_pointer = imag_b2;
-	 			  break;
-	 		  case 1:
-	 			  hdmi_buff_pointer = imag_b1;
-	 			  spi_buff_pointer = imag_b2;
-	 			  ai_buff_pointer = imag_b0;
-	 			  break;
-	 		  default:
-	 			  hdmi_buff_pointer = imag_b2;
-	 			  spi_buff_pointer = imag_b0;
-	 			  ai_buff_pointer = imag_b1;
-	 			  order = -1;
-	 		  }
-
-	 		 memchr(hdmi_buff_pointer,0x00,128*128*2);
-	 		  sensor.snapshot(hdcmi, (int32_t *)hdmi_buff_pointer);
-	 		  DCMI_State = BUSY;
-
-	 		 ILI9341_render((uint16_t *)spi_buff_pointer);
-	 		  SPI_State = BUSY;
-	 	  }
-	 	*/
-	 //   memset(imag_b0,0x00,128*128*2);
-	 //   sensor.snapshot(hdcmi, (int32_t *)imag_b0);
-	 //   ILI9341_render((uint16_t *)imag_b0);
-
+	     old_time=HAL_GetTick();
 	     sensor.snapshot(hdcmi, (int32_t *)imag_b0);
-	     ILI9341_render((uint16_t *)imag_b0);
-
+	     ILI9341_render320x240((uint16_t *)imag_b0,240-15);
+	     fps=HAL_GetTick()-old_time;
+	     sprintf(buf,"FPS=%d      ",(int)1000/fps);
+	     ILI9341_DrawText(buf, FONT2, 2, 226, BLACK, WHITE);
     }
 
 
-
-/*
-  sensor.snapshot(hdcmi, (int32_t *)hdmi_buff_pointer);
-  HAL_Delay(100);
-  ILI9341_SetRotation(SCREEN_VERTICAL_2);
- // ILI9341_SetAddress(1,1,128,128);
-//	HAL_GPIO_WritePin(LCD_DC_PORT, LCD_DC_PIN, GPIO_PIN_SET);	//data
-//	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, GPIO_PIN_RESET);	//select
-	int t1=HAL_GetTick();
-
-//	    uint8_t test = 0;
-//		HAL_SPI_Transmit(HSPI_INSTANCE, &test, 1, 1000);
-//		if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE,hdmi_buff_pointer,128*128*2)!= HAL_OK){ ILI9341_DrawText("ERROR", FONT3, 10, 20, BLACK, WHITE);}
-//		HAL_SPI_Transmit(HSPI_INSTANCE, hdmi_buff_pointer,128*128*2, 10);
-//		while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);
-	    ILI9341_render(hdmi_buff_pointer);
-	t1=HAL_GetTick()-t1;
-	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, GPIO_PIN_SET);	//deselect//
-	HAL_Delay(100);
-	char buf[32];
-	sprintf(buf,"time=%d",t1);
-	ILI9341_DrawText(buf, FONT3, 10, 150, BLACK, WHITE);
-
-    }
-*/
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -703,6 +596,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_6;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -743,9 +637,9 @@ static void sensor_setting(I2C_HandleTypeDef *camera_i2c)
 	sensor.framesize = FRAMESIZE_VGA;
 	#endif
 
-	  sensor.contrast_level = 2;
-	  sensor.brightness_level = 2;
-	  sensor.saturation_level = 2;
+	  sensor.contrast_level = 1;   // 2
+	  sensor.brightness_level = 2; // 2
+	  sensor.saturation_level = 2; // 2
 
 	  if(sensor.reset(&sensor) == -1)
 	  {
@@ -756,7 +650,68 @@ static void sensor_setting(I2C_HandleTypeDef *camera_i2c)
 		  Error_Handler();
 	  }
 }
+// Правильная настройка генератора
+void mySystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Supply configuration update enable
+  */
+  HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
+
+  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+  /** Configure LSE Drive Capability
+  */
+  HAL_PWR_EnableBkUpAccess();
+  __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
+  /** Macro to configure the PLL clock source
+  */
+  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 5;
+  RCC_OscInitStruct.PLL.PLLN = 192;
+  RCC_OscInitStruct.PLL.PLLP = 2;
+  RCC_OscInitStruct.PLL.PLLQ = 20;
+  RCC_OscInitStruct.PLL.PLLR = 2;
+  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
+  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
+  RCC_OscInitStruct.PLL.PLLFRACN = 0;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+                              |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
+  RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
 /* USER CODE END 4 */
+
 
 /**
   * @brief  This function is executed in case of error occurrence.

@@ -226,23 +226,28 @@ void ILI9341_DrawText(const char* str, const uint8_t font[], uint16_t X, uint16_
 	}
 }
 
-
-void ILI9341_render(uint16_t *frameBuffer)
+// Вывод изображения с камеры на экран с разрешением 320х240 точек
+// Проблема DMA больше 64кб не перекидывает, по этому кидаем частями
+// Вход: буфер (frameBuffer) где лежит изображение и высота (hh) изображения в точках для вывода (можно обрезать картинку по вертикали)
+#define DMA_H  80                       // сколько точек по вертикали кидается за один проход
+#define MAX_H  ILI9341_SCREEN_HEIGHT    // высота экрана в точках
+void ILI9341_render320x240(uint16_t *frameBuffer, uint16_t hh)
 {
-	//ILI9341_SetAddress(1, 2, 128, 128+1);
-	ILI9341_SetAddress(1, 2, 160, 160+1);
-	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, 0);
-
-	HAL_GPIO_WritePin(LCD_DC_PORT, LCD_DC_PIN, 1);
-
 	uint8_t test = 0;
-	HAL_SPI_Transmit(HSPI_INSTANCE, &test, 1, 1000);
-
-//	HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer, 128*128*2);
-	HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer, 160*160*2);
-
-//	HAL_SPI_Transmit(HSPI_INSTANCE, (uint8_t*)frameBuffer, 128*128*2,100);
-	while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);
+	uint8_t i=0;
+	for(i=0;i<3;i++)
+	{
+	ILI9341_SetAddress(0, i*DMA_H, 320-1, 240-1);
+	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, 0);
+	HAL_GPIO_WritePin(LCD_DC_PORT, LCD_DC_PIN, 1);
+	HAL_SPI_Transmit(HSPI_INSTANCE, &test, 1, 1);
+	if ((i+1)*DMA_H>hh) {
+		HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer+i*DMA_H*320*2, (hh-(i*DMA_H))*320*2);
+		while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);
+		break;}
+	else { HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer+i*DMA_H*320*2, DMA_H*320*2);
+	while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);}
+	}
 	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, 1);	//deselect//
 }
 
