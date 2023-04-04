@@ -242,10 +242,10 @@ void ILI9341_render320x240(uint16_t *frameBuffer, uint16_t hh)
 	HAL_GPIO_WritePin(LCD_DC_PORT, LCD_DC_PIN, 1);
 	HAL_SPI_Transmit(HSPI_INSTANCE, &test, 1, 1);
 	if ((i+1)*DMA_H>hh) {
-		HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer+i*DMA_H*320*2, (hh-(i*DMA_H))*320*2);
+		HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer+i*DMA_H*320*2, (hh-(i*DMA_H))*320*2+11); // 11 почему то не дописывает
 		while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);
 		break;}
-	else { HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer+i*DMA_H*320*2, DMA_H*320*2);
+	else { HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer+i*DMA_H*320*2, DMA_H*320*2+11);
 	while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);}
 	}
 	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, 1);	//deselect//

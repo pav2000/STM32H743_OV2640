@@ -54,8 +54,6 @@ RTC_HandleTypeDef hrtc;
 SPI_HandleTypeDef hspi2;
 DMA_HandleTypeDef hdma_spi2_tx;
 
-TIM_HandleTypeDef htim6;
-
 /* USER CODE BEGIN PV */
 sensor_t sensor = {0};
 //Streem_State_t SPI_State;
@@ -87,7 +85,6 @@ static void MX_SPI2_Init(void);
 static void MX_I2C3_Init(void);
 static void MX_RTC_Init(void);
 static void MX_CRC_Init(void);
-static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
 static void sensor_setting(I2C_HandleTypeDef *camera_i2c);
 /* USER CODE END PFP */
@@ -105,11 +102,6 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-	  /* Enable I-Cache---------------------------------------------------------*/
-//	  SCB_EnableICache();
-
-	  /* Enable D-Cache---------------------------------------------------------*/
-//	  SCB_EnableDCache();
   /* USER CODE END 1 */
 
   /* Enable I-Cache---------------------------------------------------------*/
@@ -131,7 +123,7 @@ int main(void)
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
+ // SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 // не правильно сначала должно быть инициализация MX_DMA_Init(); потом   MX_DCMI_Init();
@@ -139,14 +131,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_DCMI_Init();
-
+  MX_DMA_Init();
   MX_SPI2_Init();
   MX_I2C3_Init();
   MX_RTC_Init();
   MX_CRC_Init();
-//  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
    HAL_GPIO_WritePin(RST_CAM_GPIO_Port, RST_CAM_Pin, GPIO_PIN_SET);
@@ -159,33 +149,22 @@ int main(void)
   ILI9341_FillScreen(WHITE);
   ILI9341_SetRotation(SCREEN_HORIZONTAL_1);
   ILI9341_DrawHLine(0, 225, 320, RED);
-
   ILI9341_DrawText("Start testing", FONT2, 2, 226, BLACK, WHITE);
-
- //  HAL_TIM_Base_Start_IT(&htim6);
- //  HAL_TIM_Base_Start(&htim6);
-
 
   uint32_t old_time, fps;
   char buf[64];
-   while (1)
-    {
-	     old_time=HAL_GetTick();
-	     sensor.snapshot(hdcmi, (int32_t *)imag_b0);
-	     ILI9341_render320x240((uint16_t *)imag_b0,240-15);
-	     fps=HAL_GetTick()-old_time;
-	     sprintf(buf,"FPS=%d      ",(int)1000/fps);
-	     ILI9341_DrawText(buf, FONT2, 2, 226, BLACK, WHITE);
-    }
-
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+	         old_time=HAL_GetTick();
+		     sensor.snapshot(hdcmi, (int32_t *)imag_b0);
+		     ILI9341_render320x240((uint16_t *)imag_b0,240-15);
+		     fps=HAL_GetTick()-old_time;
+		     sprintf(buf,"FPS=%d      ",(int)1000/fps);
+		     ILI9341_DrawText(buf, FONT2, 2, 226, BLACK, WHITE);
 
     /* USER CODE END WHILE */
 
@@ -455,44 +434,6 @@ static void MX_SPI2_Init(void)
 }
 
 /**
-  * @brief TIM6 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM6_Init(void)
-{
-
-  /* USER CODE BEGIN TIM6_Init 0 */
-
-  /* USER CODE END TIM6_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM6_Init 1 */
-
-  /* USER CODE END TIM6_Init 1 */
-  htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 48000;
-  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 5000;
-  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM6_Init 2 */
-
-  /* USER CODE END TIM6_Init 2 */
-
-}
-
-/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -596,7 +537,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_6;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -711,7 +651,6 @@ void mySystemClock_Config(void)
 }
 
 /* USER CODE END 4 */
-
 
 /**
   * @brief  This function is executed in case of error occurrence.
