@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "snow_tiger.h"
+#include "stdio.h"
 #include "../Src/OV2640/ov2640.h"
 #include "../Src/OV2640/ov2640_regs.h"
 /* USER CODE END Includes */
@@ -61,16 +61,11 @@ sensor_t sensor = {0};
 //defined in sensor.h
 
 #if defined RGB565_128X128
-__attribute__((section(".frame_buffer")))int8_t imag_b0[RGB565_128X128_BUF_SIZE] = {0};
-__attribute__((section(".frame_buffer")))int8_t imag_b1[RGB565_128X128_BUF_SIZE] = {0};
-__attribute__((section(".frame_buffer")))int8_t imag_b2[RGB565_128X128_BUF_SIZE] = {0};
-
+__attribute__((section(".frame_buffer")))int8_t imag[RGB565_128X128_BUF_SIZE] = {0};
 #elif defined RGB565_160X160
-__attribute__((section(".frame_buffer")))int8_t imag_b0[RGB565_160X160_BUF_SIZE] = {0};
-__attribute__((section(".frame_buffer")))int8_t imag_b1[RGB565_160X160_BUF_SIZE] = {0};
-__attribute__((section(".frame_buffer")))int8_t imag_b2[RGB565_160X160_BUF_SIZE] = {0};
+__attribute__((section(".frame_buffer")))int8_t imag[RGB565_160X160_BUF_SIZE] = {0};
 #elif defined RGB565_QVGA
-__attribute__((section(".frame_buffer")))int8_t imag_b0[RGB565_QVGA_BUF_SIZE] = {0};
+__attribute__((section(".frame_buffer")))int8_t imag[RGB565_QVGA_BUF_SIZE] = {0};
 #elif defined RGB565_VGA
 int8_t imag[RGB565_VGA_BUF_SIZE] = {0};
 #endif
@@ -87,6 +82,7 @@ static void MX_RTC_Init(void);
 static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 static void sensor_setting(I2C_HandleTypeDef *camera_i2c);
+void mySystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -126,7 +122,7 @@ int main(void)
  // SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-// не правильно сначала должно быть инициализация MX_DMA_Init(); потом   MX_DCMI_Init();
+// Не правильно сначала должно быть инициализация MX_DMA_Init(); потом   MX_DCMI_Init();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -160,10 +156,10 @@ int main(void)
   while (1)
   {
 	         old_time=HAL_GetTick();
-		     sensor.snapshot(hdcmi, (int32_t *)imag_b0);
-		     ILI9341_render320x240((uint16_t *)imag_b0,240-15);
+		     sensor.snapshot(hdcmi, (int32_t *)imag);
+		     ILI9341_render320x240((uint16_t *)imag,240-15);
 		     fps=HAL_GetTick()-old_time;
-		     sprintf(buf,"FPS=%d      ",(int)1000/fps);
+		     sprintf(buf,"FPS=%d      ",(int)(1000/fps));
 		     ILI9341_DrawText(buf, FONT2, 2, 226, BLACK, WHITE);
 
     /* USER CODE END WHILE */

@@ -1,3 +1,4 @@
+#include "stdio.h"
 #include "ILI9341_STM32_Driver.h"
 #include "ILI9341_GFX.h"
 
@@ -281,19 +282,14 @@ void ILI9341_DrawImage(const uint8_t* image, uint8_t orientation)
 		HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, GPIO_PIN_RESET);	//select
 		int t1=HAL_GetTick();
 
-			if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE, image, 65000)!= HAL_OK){
+			if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE,(uint8_t*) image, 65000)!= HAL_OK){
 			ILI9341_DrawText("ERROR", FONT3, 10, 20, BLACK, WHITE);
 			}
 			// HAL_SPI_Transmit(HSPI_INSTANCE, buffer, len, 10);
 			while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);
 
-	//		__HAL_DMA_DISABLE(&hdma_spi2_tx);
-	//		__HAL_DMA_ENABLE(&hdma_spi2_tx);
-	//		__HAL_DMA_CLEAR_FLAG(&hdma_spi2_tx,DMA_FLAG_TCIF0_4 );
 
-
-
-			if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE, image+65000, 65000)!= HAL_OK){
+			if(HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)image+65000, 65000)!= HAL_OK){
 			ILI9341_DrawText("ERROR", FONT3, 10, 20, BLACK, WHITE);
 			}
 //			// HAL_SPI_Transmit(HSPI_INSTANCE, buffer, len, 10);
@@ -307,18 +303,5 @@ void ILI9341_DrawImage(const uint8_t* image, uint8_t orientation)
 		char buf[32];
 		sprintf(buf,"time=%d",t1);
 		ILI9341_DrawText(buf, FONT3, 10, 10, BLACK, WHITE);
-
-
-/*
-	uint32_t counter = 0;
-		for(uint32_t i = 0; i < ILI9341_SCREEN_WIDTH*ILI9341_SCREEN_HEIGHT*2/BURST_MAX_SIZE; i++)
-	{
-		ILI9341_WriteBuffer((uint8_t*)(image + counter), BURST_MAX_SIZE);
-		counter += BURST_MAX_SIZE;
-
-		// DMA Tx is too fast, It needs some delay
-		DelayUs(1);
-	}
-*/
 
 }

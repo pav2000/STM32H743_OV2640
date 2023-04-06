@@ -14,5 +14,6 @@ void ILI9341_DrawFilledRectangleCoord(uint16_t X0, uint16_t Y0, uint16_t X1, uin
 void ILI9341_DrawChar(char ch, const uint8_t font[], uint16_t X, uint16_t Y, uint16_t color, uint16_t bgcolor);
 void ILI9341_DrawText(const char* str, const uint8_t font[], uint16_t X, uint16_t Y, uint16_t color, uint16_t bgcolor);
 void ILI9341_DrawImage(const uint8_t* image, uint8_t orientation);
+void ILI9341_render320x240(uint16_t *frameBuffer, uint16_t hh);
 
 #endif
