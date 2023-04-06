@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stdio.h"
 #include "network.h"
 #include "network_data.h"
 #include "../Src/OV2640/ov2640.h"
@@ -59,6 +60,7 @@ DMA_HandleTypeDef hdma_spi2_tx;
 /* USER CODE BEGIN PV */
 sensor_t sensor = {0}; // Структура камеры
 // Определение фрейм буфера для камеры
+// Организация буфера внутри дисплея. От верхнего левого угла по длинной стороне (т.е сначала запоняется верхняя длинная сторона)
 #if defined RGB565_128X128
 __attribute__((section(".frame_buffer")))int8_t imag[RGB565_128X128_BUF_SIZE] = {0};
 #elif defined RGB565_160X160
@@ -93,8 +95,6 @@ static float output[2];
 static const char lable[2][11] = {"CAT",
 								  "DOG"};
 // Инициализация нейросети
-// Организация буфера внутри дисплея. От верхнего левого угла по длинной стороне (т.е сначала запоняется верхняя длинная сторона)
-
 /* Global handle to reference the instantiated C-model */
 static ai_handle network = AI_HANDLE_NULL;
 
@@ -262,9 +262,9 @@ int main(void)
 	         old_time=HAL_GetTick();
 		     sensor.snapshot(hdcmi, (int32_t *)imag);
 		     ILI9341_render128x128((uint16_t *)imag,0,0,128,128,frame);
-		     uint8_t number = run_AI(imag); // Запуск нейросети
+		     uint8_t number = run_AI((uint16_t*)imag); // Запуск нейросети
 		     fps=HAL_GetTick()-old_time;
-		     sprintf(buf,"FPS=%d ",(int)1000/fps);
+		     sprintf(buf,"FPS=%d ",(int)(1000/fps));
 		     ILI9341_DrawText(buf, FONT2, 2, 226, BLACK, WHITE);
 		     sprintf(buf,"Detect AI: %s (%.2f/%.2f)",lable[number],output[0],output[1]);
 		     ILI9341_DrawText(buf, FONT2, 140, 226, BLACK, WHITE);
