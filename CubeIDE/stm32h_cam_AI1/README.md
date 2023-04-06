@@ -8,6 +8,9 @@
 указывает область обработки нейросетью.<br>
 Внизу экрана выводится какой класс определен нейросетью и в скобках вероятность по обоим классам (cat/dog).<br>
 Внизу экрана показывается частота обновления экрана.<br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/Board/ex11.jpg" width="480" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/Board/ex12.jpg" width="480" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/Board/ex13.jpg" width="480" /> <br>
 <br>
 <br>
 
