@@ -12,12 +12,12 @@
 тактирование от внутренней RC цепочки. Необходимо проверять в Cube.MX - использование внешнего кварца и установка его частоты на 25 МГц.
 В противном случае пример не будет работать. Также после новой генерации кода необходимо закоментировать вызовы MX_X_CUBE_AI_Process()
 и MX_X_CUBE_AI_Init(), в примере им написаны альтернативы.
-Создание нейросети с входами 80х80 точек
+Создание нейросети с входами 80х80 точек/<br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI2/picture/cat_dog_80x80.jpg" width="480" /> <br>
-Использование CUBE.AI
+Использование CUBE.AI <br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI2/picture/cube01.jpg" width="480" /> <br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI2/picture/cube02.jpg" width="480" /> <br>
-Результаты работы на целевом устройстве
+Результаты работы на целевом устройстве <br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI2/picture/dog01.jpg" width="480" /> <br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI2/picture/cat01.jpg" width="480" /> <br>
 <br>
