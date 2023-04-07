@@ -88,6 +88,9 @@ static void sensor_setting(I2C_HandleTypeDef *camera_i2c);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#define HARDWARE "1.00"  // Версия железа
+#define SOFTWARE "1.10"  // Версия программы
+#define hFONT2   14      // высота шрифта в точках FONT2
 static void init_AI(void);
 static uint8_t run_AI(uint16_t *frameBuffer);
 static float input[80][80][3];
@@ -114,28 +117,26 @@ void init_AI()
 	  /* Create an instance of the model */
 	  err = ai_network_create_and_init(&network, act_addr, NULL);
 	  if (err.type != AI_ERROR_NONE) {
-	  // manage the error
 		sprintf(buf,"Err create:%d",(int)err.code);
-		ILI9341_DrawText(buf, FONT2, 162,2, BLACK, WHITE);
-		} else ILI9341_DrawText("Create OK", FONT2, 165,2, BLACK, WHITE);
-
+		ILI9341_DrawText(buf, FONT2, 220,1*hFONT2+1, BLACK, LIGHTGREY);
+		} else ILI9341_DrawText("Create OK", FONT2, 220, 1*hFONT2+1, BLACK, LIGHTGREY);
 	  /* Reteive pointers to the model's input/output tensors */
 	   ai_input = ai_network_inputs_get(network, NULL);
 	   ai_output = ai_network_outputs_get(network, NULL);
 
 }
-
+// Запуск нейросети
 static uint8_t run_AI(uint16_t *frameBuffer)
 {
 	char buf[200];
 // Подготовка данных для нейросети из изображения полученного от камеры.
-// В буфере лежит картинка 128(строки) на 128 (столбцы) по 2 байта на точку ПО СТРОЧНО!
-// Нейросеть всасывает картинку 96х95 (верхний левый угол)
+// В буфере лежит картинка 160(строки) на 160(столбцы) по 2 байта на точку ПО СТРОЧНО!
+// Нейросеть всасывает картинку 80х80 (верхний левый угол) с прореживанием!!
 	for(int i = 0; i < 80; i ++)  // Строки
 	{
 		for(int j = 0; j < 80; j ++) // Столбцы
 		{
-			uint16_t RGB_sample = frameBuffer[(i*128*2)+j*2];
+			uint16_t RGB_sample = frameBuffer[(i*128*2)+j*2]; // берется каждая вторая точка из картинки 160х160
 			//uint16_t RGB_sample = frameBuffer[40*2+40*2*(i*2*2)+(j*2*2)];
 			float B = (float)(RGB_sample & 0x1f) / 32.0;
 			float G = (float)((RGB_sample >> 6) & 0x1f) / 32.0;
@@ -159,8 +160,8 @@ static uint8_t run_AI(uint16_t *frameBuffer)
 	  if (batch != 1) {
 	    err = ai_network_get_error(network);
 	    sprintf(buf,"Err type:0x%x code:0x%x",(int)err.type,(int)err.code);
-	   	ILI9341_DrawText(buf, FONT2, 52,226, BLACK, WHITE);
-	    } else ILI9341_DrawText("Run OK", FONT2, 52,226, BLACK, WHITE);
+	   	ILI9341_DrawText(buf, FONT2, 220, 2*hFONT2+1, BLACK, LIGHTGREY);
+	    } else ILI9341_DrawText("Run OK", FONT2, 220, 2*hFONT2+1, BLACK, LIGHTGREY);
 	if (output[0]>output[1]) return 0; else return 1;
 
 }
@@ -174,7 +175,7 @@ static uint8_t run_AI(uint16_t *frameBuffer)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  char buf[64];
   /* USER CODE END 1 */
 
   /* Enable I-Cache---------------------------------------------------------*/
@@ -219,14 +220,17 @@ int main(void)
 
   ILI9341_Init();
 //  HAL_GPIO_WritePin(LED_BOARD_GPIO_Port, LED_BOARD_Pin, GPIO_PIN_RESET); // Установить светодиод  1
+  // Стартовый экран
   HAL_GPIO_WritePin(PWDN_TFT_GPIO_Port, PWDN_TFT_Pin, GPIO_PIN_RESET);     // Включить подсветку дисплея
-  ILI9341_FillScreen(WHITE);
+  ILI9341_FillScreen(LIGHTGREY);
   ILI9341_SetRotation(SCREEN_HORIZONTAL_1);
-  ILI9341_DrawHLine(0, 225, 320, RED);
-  ILI9341_DrawText("Start", FONT2, 2, 226, BLACK, WHITE);
+  ILI9341_DrawRectangle(0,240-2*hFONT2,320-1, 2*hFONT2, WHITE); // Область в две строки для вывода инфы
+  ILI9341_DrawHLine(0, 240-2*hFONT2, 320, RED);
+  sprintf(buf,"Software: %s Hardware: %s",SOFTWARE, HARDWARE);
+  ILI9341_DrawText(buf, FONT2, 130, 240-1*hFONT2+1, RED, WHITE);
+  ILI9341_DrawText("Start", FONT2, 220,0*hFONT2+1, BLACK, LIGHTGREY);
 
   uint32_t old_time, fps;
-  char buf[64];
   init_AI();
   bool pause=false;     // есть ли пауза
   bool key2WasUp=true;  // была ли кнопка отпущена?
@@ -264,9 +268,10 @@ int main(void)
 		     uint8_t number = run_AI((uint16_t*)imag); // Запуск нейросети
 		     fps=HAL_GetTick()-old_time;
 		     sprintf(buf,"FPS=%d ",(int)(1000/fps));
-		     ILI9341_DrawText(buf, FONT2, 2, 226, BLACK, WHITE);
-		     sprintf(buf,"Detect AI: %s (%.2f/%.2f)",lable[number],output[0],output[1]);
-		     ILI9341_DrawText(buf, FONT2, 140, 226, BLACK, WHITE);
+		     ILI9341_DrawText(buf, FONT2, 2, 240-1*hFONT2+1, BLACK, WHITE);
+		     sprintf(buf,"Output: %s(%.2f) / %s(%.2f)",lable[0],output[0],lable[1],output[1]);
+		     ILI9341_DrawText(buf, FONT2,0, 240-2*hFONT2+1, BLACK, WHITE);
+		     ILI9341_DrawText(lable[number], FONT4,220, 80, BLUE, LIGHTGREY);
       }
     /* USER CODE END WHILE */
 
