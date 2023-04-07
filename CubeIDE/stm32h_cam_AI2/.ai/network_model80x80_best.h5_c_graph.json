@@ -3029,8 +3029,8 @@
         }
     ],
     "c_activations_count": 1,
-    "date_time": "Fri Apr  7 12:30:59 2023",
-    "model_name": "model80x80",
+    "date_time": "Fri Apr  7 12:33:26 2023",
+    "model_name": "model80x80_best",
     "tool_version": {
         "major": 1,
         "minor": 7,
@@ -3467,7 +3467,7 @@
         "minor": 5,
         "micro": 0
     },
-    "model_signature": "31a91430ca76f3c8f63547853a55a969",
+    "model_signature": "74c5227ce5138b97e3098b434844e60b",
     "params_alignment": 4,
     "activations": {"heap_overlay_pool": {
         "buffer_data_size": 0,

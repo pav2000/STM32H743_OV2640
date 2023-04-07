@@ -1,7 +1,7 @@
 {
     "_allocate_inputs": 4,
     "_allocate_outputs": 4,
-    "cli_parameters": "generate --name network -m /home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI2/model/model80x80.h5 --type keras --compression none --verbosity 1 --workspace /tmp/mxAI_workspace139481954607131312460852664303840290 --output /home/pavel/.stm32cubemx/network_output --allocate-inputs --series stm32h7 --allocate-outputs",
+    "cli_parameters": "generate --name network -m /home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI2/model/model80x80_best.h5 --type keras --compression none --verbosity 1 --workspace /tmp/mxAI_workspace139496687706956811139002039064572313 --output /home/pavel/.stm32cubemx/network_output --allocate-inputs --series stm32h7 --allocate-outputs",
     "cli_version": {
         "major": 1,
         "micro": 0,
@@ -12,12 +12,12 @@
         "factor": null,
         "layers": {}
     },
-    "date_time": "Fri Apr  7 12:30:59 2023",
+    "date_time": "Fri Apr  7 12:33:26 2023",
     "error": 0,
     "error_str": [],
     "exec_cmd": "generate",
     "exec_duration": 0.0,
-    "hash": "31a91430ca76f3c8f63547853a55a969",
+    "hash": "74c5227ce5138b97e3098b434844e60b",
     "inputs": [
         "input_0"
     ],
@@ -1909,10 +1909,10 @@
         }
     ],
     "model_files": [
-        "/home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI2/model/model80x80.h5"
+        "/home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI2/model/model80x80_best.h5"
     ],
     "model_n_params": 213586,
-    "model_name": "model80x80",
+    "model_name": "model80x80_best",
     "model_size": 854344,
     "model_type": "keras",
     "name": "network",
