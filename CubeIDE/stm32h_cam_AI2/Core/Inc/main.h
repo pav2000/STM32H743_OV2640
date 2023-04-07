@@ -46,11 +46,10 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-typedef enum
-{
-	BUSY,
-	REDY
-} Streem_State_t;
+#define HARDWARE "1.00"  // Версия железа
+#define SOFTWARE "1.13"  // Версия программы
+#define hFONT2   14      // высота шрифта в точках FONT2
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

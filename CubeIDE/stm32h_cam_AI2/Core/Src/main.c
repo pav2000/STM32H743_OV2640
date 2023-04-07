@@ -88,9 +88,6 @@ static void sensor_setting(I2C_HandleTypeDef *camera_i2c);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define HARDWARE "1.00"  // Версия железа
-#define SOFTWARE "1.10"  // Версия программы
-#define hFONT2   14      // высота шрифта в точках FONT2
 static void init_AI(void);
 static uint8_t run_AI(uint16_t *frameBuffer);
 static float input[80][80][3];
@@ -191,16 +188,16 @@ int main(void)
 
   /* USER CODE BEGIN Init */
   mySystemClock_Config();
-  MX_GPIO_Init();
   MX_DMA_Init();
   MX_DCMI_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
-//  SystemClock_Config();
+ // SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-// Не правильно сначала должно быть инициализация MX_DMA_Init(); потом   MX_DCMI_Init();
+ // Не правильно сначала должно быть инициализация MX_DMA_Init(); потом   MX_DCMI_Init();
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -211,9 +208,10 @@ int main(void)
   MX_I2C3_Init();
   MX_RTC_Init();
   MX_CRC_Init();
-  MX_X_CUBE_AI_Init();
+ // MX_X_CUBE_AI_Init();
   /* USER CODE BEGIN 2 */
-
+  //  MX_X_CUBE_AI_Init(); НЕОБХОДИМО ЗАКОМЕНТИРОВАТЬ, нейросеть создается функцией  init_AI();
+   init_AI();
    HAL_GPIO_WritePin(RST_CAM_GPIO_Port, RST_CAM_Pin, GPIO_PIN_SET);
    HAL_GPIO_WritePin(PWDN_CAM_GPIO_Port, PWDN_CAM_Pin, GPIO_PIN_RESET);
    sensor_setting(&hi2c3);
@@ -231,7 +229,6 @@ int main(void)
   ILI9341_DrawText("Start", FONT2, 220,0*hFONT2+1, BLACK, LIGHTGREY);
 
   uint32_t old_time, fps;
-  init_AI();
   bool pause=false;     // есть ли пауза
   bool key2WasUp=true;  // была ли кнопка отпущена?
   bool key2IsUp;        // текущее состояние кнопки
@@ -273,8 +270,8 @@ int main(void)
 		     ILI9341_DrawText(buf, FONT2,0, 240-2*hFONT2+1, BLACK, WHITE);
 		     ILI9341_DrawText(lable[number], FONT4,220, 80, BLUE, LIGHTGREY);
       }
+     //  MX_X_CUBE_AI_Process(); НЕОБХОДИМО ЗАКОМЕНТИРОВАТЬ, нейросеть запускается кодом выше
     /* USER CODE END WHILE */
-
 //  MX_X_CUBE_AI_Process();
     /* USER CODE BEGIN 3 */
   }
