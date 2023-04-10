@@ -3,15 +3,15 @@
   <FileVersion>3.0</FileVersion>
   <Workspace>
     <WorkspaceType>Single-project</WorkspaceType>
-    <WorkspacePath>/home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI2/</WorkspacePath>
+    <WorkspacePath>/home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI3/</WorkspacePath>
     <underRoot>true</underRoot>
     <TrustZone>0</TrustZone>
     <HAL_Driver>/home/pavel/STM32Cube/Repository//STM32Cube_FW_H7_V1.9.1</HAL_Driver>
     <CMSIS>Drivers/CMSIS</CMSIS>
     <Toolchain>STM32CubeIDE</Toolchain>
-    <IocFile>stm32h_cam_AI2.ioc</IocFile>
+    <IocFile>stm32h_cam_AI3.ioc</IocFile>
     <Project>
-      <ProjectName>stm32h_cam_AI2</ProjectName>
+      <ProjectName>stm32h_cam_AI3</ProjectName>
       <ProjectNature>C</ProjectNature>
       <Secure />
       <filestoremove>
@@ -33,7 +33,7 @@
       </sourceEntriesToRemove>
       <configs>
         <config>
-          <name>stm32h_cam_AI2</name>
+          <name>stm32h_cam_AI3</name>
           <mainSourceRepo>Core</mainSourceRepo>
           <sourceStructure>Advanced</sourceStructure>
           <device>STM32H743VITx</device>

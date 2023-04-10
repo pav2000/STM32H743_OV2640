@@ -90,10 +90,18 @@ static void sensor_setting(I2C_HandleTypeDef *camera_i2c);
 /* USER CODE BEGIN 0 */
 static void init_AI(void);
 static uint8_t run_AI(uint16_t *frameBuffer);
-static float input[80][80][3];
-static float output[2];
-static const char lable[2][11] = {"CAT",
-								  "DOG"};
+static float input[32][32][3];
+static float output[10];
+static const char lable[10][11] = { "airplane  ",
+									"automobile",
+									"bird      ",
+									"cat       ",
+									"deer      ",
+									"dog       ",
+									"frog      ",
+									"horse     ",
+									"ship      ",
+									"truck     "};
 // Инициализация нейросети
 /* Global handle to reference the instantiated C-model */
 static ai_handle network = AI_HANDLE_NULL;
@@ -126,21 +134,30 @@ void init_AI()
 static uint8_t run_AI(uint16_t *frameBuffer)
 {
 	char buf[200];
+	float B,G,R;
 // Подготовка данных для нейросети из изображения полученного от камеры.
 // В буфере лежит картинка 160(строки) на 160(столбцы) по 2 байта на точку ПО СТРОЧНО!
 // Нейросеть всасывает картинку 80х80 (верхний левый угол) с прореживанием!!
-	for(int i = 0; i < 80; i ++)  // Строки
+	for(int i = 0; i < 32; i ++)  // Строки
 	{
-		for(int j = 0; j < 80; j ++) // Столбцы
+		for(int j = 0; j < 32; j ++) // Столбцы
 		{
-			uint16_t RGB_sample = frameBuffer[(i*128*2)+j*2]; // берется каждая вторая точка из картинки 160х160
-			//uint16_t RGB_sample = frameBuffer[40*2+40*2*(i*2*2)+(j*2*2)];
-			float B = (float)(RGB_sample & 0x1f) / 32.0;
-			float G = (float)((RGB_sample >> 6) & 0x1f) / 32.0;
-			float R = (float)(RGB_sample >> 11) / 32.0;
-			input[i][j][0] = (R - 0.1307) / 0.3081;
-			input[i][j][1] = (G - 0.1307) / 0.3081;
-			input[i][j][2] = (B - 0.1307) / 0.3081;
+			B=0;G=0;R=0;
+			// усредняем матрицу точек 5х5
+			for(int n = 0; n < 5; n ++) // Усреднение точек
+			{
+				for(int m = 0; m < 5; m ++)
+				{
+				uint16_t RGB_sample = frameBuffer[(i*160*5+n)+(j*5+m)]; // берется каждая пятая точка из картинки 160х160
+		//		uint16_t RGB_sample = frameBuffer[(i*160*5)+(j*5)]; // берется каждая пятая точка из картинки 160х160
+				B =B+(float)(RGB_sample & 0x1f) / 32.0;
+				G =G+(float)((RGB_sample >> 6) & 0x1f) / 32.0;
+				R =R+(float)(RGB_sample >> 11) / 32.0;
+				}
+			}
+			input[i][j][0] = ((R/25.0) - 0.1307) / 0.3081;
+			input[i][j][1] = ((G/25.0) - 0.1307) / 0.3081;
+			input[i][j][2] = ((B/25.0) - 0.1307) / 0.3081;
 		}
 	}
 
@@ -159,8 +176,18 @@ static uint8_t run_AI(uint16_t *frameBuffer)
 	    sprintf(buf,"Err type:0x%x code:0x%x",(int)err.type,(int)err.code);
 	   	ILI9341_DrawText(buf, FONT2, 220, 2*hFONT2+1, BLACK, LIGHTGREY);
 	    } else ILI9341_DrawText("Run OK", FONT2, 220, 2*hFONT2+1, BLACK, LIGHTGREY);
-	if (output[0]>output[1]) return 0; else return 1;
 
+	    uint8_t res = 0;
+	  	int8_t max = output[0];
+	  	for(int g = 1; g < 10; g++)
+	  	{
+	  		if(max < output[g])
+	  		{
+	  			res = g;
+	  			max = output[g];
+	  		}
+	  	}
+	  	return res;
 }
 
 /* USER CODE END 0 */
@@ -265,9 +292,15 @@ int main(void)
 		     fps=HAL_GetTick()-old_time;
 		     sprintf(buf,"FPS=%d ",(int)(1000/fps));
 		     ILI9341_DrawText(buf, FONT2, 2, 240-1*hFONT2+1, BLACK, WHITE);
-		     sprintf(buf,"Output: %s(%.2f) / %s(%.2f)",lable[0],output[0],lable[1],output[1]);
-		     ILI9341_DrawText(buf, FONT2,0, 240-2*hFONT2+1, BLACK, WHITE);
-		     ILI9341_DrawText(lable[number], FONT4,220, 80, BLUE, LIGHTGREY);
+		   //  sprintf(buf,"Output: %s(%.2f) / %s(%.2f)",lable[0],output[0],lable[1],output[1]);
+		   //  ILI9341_DrawText(buf, FONT2,0, 240-2*hFONT2+1, BLACK, WHITE);
+		     ILI9341_DrawText(lable[number], FONT4,220, 40, BLUE, LIGHTGREY);
+		     for(int j = 0; j < 10; j ++)
+		     {
+		    	 sprintf(buf,"%s :%.2f",lable[j],output[j]);
+		    	 ILI9341_DrawText(buf, FONT2,200, 70+j*hFONT2, BLACK, LIGHTGREY);
+		     }
+
       }
      //  MX_X_CUBE_AI_Process(); НЕОБХОДИМО ЗАКОМЕНТИРОВАТЬ, нейросеть запускается кодом выше
     /* USER CODE END WHILE */
