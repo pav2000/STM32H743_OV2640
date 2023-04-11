@@ -53,13 +53,14 @@
 Создание нейросети с входами 32х32 точек.<br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/neuro1.jpg" width="640" /> <br>
 Использование X-CUBE.AI (используемая память)<br>
-<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/neuro1.jpg" width="480" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/neuro2.jpg" width="480" /> <br>
 Результат распозования получился не очень, особенно животных. Включение усреднения улучшает но не намного результаты.
+Особенно хорошо распознаются - самолет, автомобиль, грузовик.<br>
 Результаты работы на целевом устройстве - пример распознования некоторых классов.<br>
-<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/automobile.jpg" width="360" /> <br>
-<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/airplane.jpg" width="360" /> <br>
-<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/ship.jpg" width="360" /> <br>
-<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/horse.jpg" width="360" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/automobile.jpg" width="320" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/airplane.jpg" width="320" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/ship.jpg" width="320" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI3/picture/horse.jpg" width="320" /> <br>
 <br>
 <br>
 
