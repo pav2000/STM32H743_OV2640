@@ -149,7 +149,7 @@ static uint8_t run_AI(uint16_t *frameBuffer)
 				for(int m = 0; m < 5; m ++)
 				{
 				uint16_t RGB_sample = frameBuffer[(i*160*5+n)+(j*5+m)]; // берется каждая пятая точка из картинки 160х160
-		//		uint16_t RGB_sample = frameBuffer[(i*160*5)+(j*5)]; // берется каждая пятая точка из картинки 160х160
+		//		uint16_t RGB_sample = frameBuffer[(i*160*5)+(j*5)];     // берется каждая пятая точка из картинки 160х160
 				B =B+(float)(RGB_sample & 0x1f) / 32.0;
 				G =G+(float)((RGB_sample >> 6) & 0x1f) / 32.0;
 				R =R+(float)(RGB_sample >> 11) / 32.0;
@@ -177,8 +177,9 @@ static uint8_t run_AI(uint16_t *frameBuffer)
 	   	ILI9341_DrawText(buf, FONT2, 220, 2*hFONT2+1, BLACK, LIGHTGREY);
 	    } else ILI9341_DrawText("Run OK", FONT2, 220, 2*hFONT2+1, BLACK, LIGHTGREY);
 
+	   // Поиск победителя
 	    uint8_t res = 0;
-	  	int8_t max = output[0];
+	  	float max = output[0];
 	  	for(int g = 1; g < 10; g++)
 	  	{
 	  		if(max < output[g])
@@ -262,6 +263,10 @@ int main(void)
   bool key1IsUp;        // текущее состояние кнопки
 
   init_AI(); // Создание нейросети
+  for(int j = 0; j < 10; j ++) // Названия классовна дисплей
+	   {
+	    ILI9341_DrawText(lable[j], FONT2,220, 70+j*hFONT2, BLACK, LIGHTGREY);
+	    }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -292,13 +297,11 @@ int main(void)
 		     fps=HAL_GetTick()-old_time;
 		     sprintf(buf,"FPS=%d ",(int)(1000/fps));
 		     ILI9341_DrawText(buf, FONT2, 2, 240-1*hFONT2+1, BLACK, WHITE);
-		   //  sprintf(buf,"Output: %s(%.2f) / %s(%.2f)",lable[0],output[0],lable[1],output[1]);
-		   //  ILI9341_DrawText(buf, FONT2,0, 240-2*hFONT2+1, BLACK, WHITE);
-		     ILI9341_DrawText(lable[number], FONT4,220, 40, BLUE, LIGHTGREY);
+		     ILI9341_DrawText(lable[number], FONT4,220, 45, BLUE, LIGHTGREY);
 		     for(int j = 0; j < 10; j ++)
 		     {
-		    	 sprintf(buf,"%s :%.2f",lable[j],output[j]);
-		    	 ILI9341_DrawText(buf, FONT2,200, 70+j*hFONT2, BLACK, LIGHTGREY);
+		    	 sprintf(buf,"%.2f",output[j]);
+		    	 ILI9341_DrawText(buf, FONT2,290, 70+j*hFONT2, BLACK, LIGHTGREY);
 		     }
 
       }
