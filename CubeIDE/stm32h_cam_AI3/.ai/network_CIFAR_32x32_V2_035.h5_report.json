@@ -1,0 +1,3581 @@
+{
+    "_allocate_inputs": 4,
+    "_allocate_outputs": 4,
+    "cli_parameters": "generate --name network -m /home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI3/model/CIFAR_32x32_V2_035.h5 --type keras --compression lossless --verbosity 1 --workspace /tmp/mxAI_workspace173425881389662315875794812295430602 --output /home/pavel/.stm32cubemx/network_output --allocate-inputs --series stm32h7 --allocate-outputs",
+    "cli_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 7
+    },
+    "cli_version_str": "1.7.0",
+    "compression": {
+        "factor": null,
+        "layers": {}
+    },
+    "date_time": "Tue Apr 11 10:48:22 2023",
+    "error": 0,
+    "error_str": [],
+    "exec_cmd": "generate",
+    "exec_duration": 0.0,
+    "hash": "fe98b3bbf94fd053307e1960ba147c41",
+    "inputs": [
+        "input_0"
+    ],
+    "layers": [
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 12288,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        32,
+                        32,
+                        3,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [],
+            "name": "input_0",
+            "original": null,
+            "type": "Input"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 110592,
+                "n_params": 432,
+                "psize": 1728,
+                "rom_output": {
+                    "c_size": 16384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        16,
+                        16,
+                        16,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "input_0"
+            ],
+            "name": "Conv1_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                62,
+                63
+            ],
+            "extras": {
+                "n_macc": 8192,
+                "n_params": 32,
+                "psize": 128,
+                "rom_size": 40992
+            },
+            "id": 2,
+            "inputs": [
+                "Conv1_conv2d"
+            ],
+            "name": "bn_Conv1",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                0
+            ],
+            "extras": {
+                "n_macc": 4096,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 1792
+            },
+            "id": 3,
+            "inputs": [
+                "bn_Conv1"
+            ],
+            "name": "Conv1_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 36864,
+                "n_params": 144,
+                "psize": 576,
+                "rom_output": {
+                    "c_size": 16384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        16,
+                        16,
+                        16,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 4,
+            "inputs": [
+                "Conv1_relu"
+            ],
+            "name": "expanded_conv_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                64,
+                65
+            ],
+            "extras": {
+                "n_macc": 8192,
+                "n_params": 32,
+                "psize": 128,
+                "rom_size": 360
+            },
+            "id": 5,
+            "inputs": [
+                "expanded_conv_depthwise_conv2d"
+            ],
+            "name": "expanded_conv_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                1
+            ],
+            "extras": {
+                "n_macc": 4096,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 640
+            },
+            "id": 6,
+            "inputs": [
+                "expanded_conv_depthwise_BN"
+            ],
+            "name": "expanded_conv_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 32768,
+                "n_params": 128,
+                "psize": 512,
+                "rom_output": {
+                    "c_size": 8192,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        16,
+                        16,
+                        8,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 7,
+            "inputs": [
+                "expanded_conv_depthwise_relu"
+            ],
+            "name": "expanded_conv_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                2
+            ],
+            "extras": {
+                "n_macc": 4096,
+                "n_params": 16,
+                "psize": 64,
+                "rom_size": 544
+            },
+            "id": 8,
+            "inputs": [
+                "expanded_conv_project_conv2d"
+            ],
+            "name": "expanded_conv_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 98304,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_output": {
+                    "c_size": 49152,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        16,
+                        16,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 9,
+            "inputs": [
+                "expanded_conv_project_BN"
+            ],
+            "name": "block_1_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 96,
+                "psize": 384,
+                "rom_size": 0
+            },
+            "id": 10,
+            "inputs": [
+                "block_1_expand_conv2d"
+            ],
+            "name": "block_1_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                3
+            ],
+            "extras": {
+                "n_macc": 12288,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 1728
+            },
+            "id": 11,
+            "inputs": [
+                "block_1_expand_BN"
+            ],
+            "name": "block_1_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 12,
+            "inputs": [
+                "block_1_expand_relu"
+            ],
+            "name": "block_1_pad",
+            "original": "ZeroPadding2D",
+            "type": "Pad"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 27648,
+                "n_params": 432,
+                "psize": 1728,
+                "rom_output": {
+                    "c_size": 12288,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        8,
+                        8,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 13,
+            "inputs": [
+                "block_1_pad"
+            ],
+            "name": "block_1_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 6144,
+                "n_params": 96,
+                "psize": 384,
+                "rom_size": 0
+            },
+            "id": 14,
+            "inputs": [
+                "block_1_depthwise_conv2d"
+            ],
+            "name": "block_1_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                4
+            ],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 1920
+            },
+            "id": 15,
+            "inputs": [
+                "block_1_depthwise_BN"
+            ],
+            "name": "block_1_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_output": {
+                    "c_size": 2048,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        8,
+                        8,
+                        8,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 16,
+            "inputs": [
+                "block_1_depthwise_relu"
+            ],
+            "name": "block_1_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                5
+            ],
+            "extras": {
+                "n_macc": 1024,
+                "n_params": 16,
+                "psize": 64,
+                "rom_size": 1568
+            },
+            "id": 17,
+            "inputs": [
+                "block_1_project_conv2d"
+            ],
+            "name": "block_1_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_output": {
+                    "c_size": 12288,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        8,
+                        8,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 18,
+            "inputs": [
+                "block_1_project_BN"
+            ],
+            "name": "block_2_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 6144,
+                "n_params": 96,
+                "psize": 384,
+                "rom_size": 0
+            },
+            "id": 19,
+            "inputs": [
+                "block_2_expand_conv2d"
+            ],
+            "name": "block_2_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                6
+            ],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 1728
+            },
+            "id": 20,
+            "inputs": [
+                "block_2_expand_BN"
+            ],
+            "name": "block_2_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 27648,
+                "n_params": 432,
+                "psize": 1728,
+                "rom_output": {
+                    "c_size": 12288,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        8,
+                        8,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 21,
+            "inputs": [
+                "block_2_expand_relu"
+            ],
+            "name": "block_2_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 6144,
+                "n_params": 96,
+                "psize": 384,
+                "rom_size": 0
+            },
+            "id": 22,
+            "inputs": [
+                "block_2_depthwise_conv2d"
+            ],
+            "name": "block_2_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                7
+            ],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 1920
+            },
+            "id": 23,
+            "inputs": [
+                "block_2_depthwise_BN"
+            ],
+            "name": "block_2_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_output": {
+                    "c_size": 2048,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        8,
+                        8,
+                        8,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 24,
+            "inputs": [
+                "block_2_depthwise_relu"
+            ],
+            "name": "block_2_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                8
+            ],
+            "extras": {
+                "n_macc": 1024,
+                "n_params": 16,
+                "psize": 64,
+                "rom_size": 1568
+            },
+            "id": 25,
+            "inputs": [
+                "block_2_project_conv2d"
+            ],
+            "name": "block_2_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                9
+            ],
+            "extras": {
+                "n_macc": 512,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 2048,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        8,
+                        8,
+                        8,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 26,
+            "inputs": [
+                "block_1_project_BN",
+                "block_2_project_BN"
+            ],
+            "name": "block_2_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_output": {
+                    "c_size": 12288,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        8,
+                        8,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 27,
+            "inputs": [
+                "block_2_add"
+            ],
+            "name": "block_3_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 6144,
+                "n_params": 96,
+                "psize": 384,
+                "rom_size": 0
+            },
+            "id": 28,
+            "inputs": [
+                "block_3_expand_conv2d"
+            ],
+            "name": "block_3_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                10
+            ],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 1728
+            },
+            "id": 29,
+            "inputs": [
+                "block_3_expand_BN"
+            ],
+            "name": "block_3_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 30,
+            "inputs": [
+                "block_3_expand_relu"
+            ],
+            "name": "block_3_pad",
+            "original": "ZeroPadding2D",
+            "type": "Pad"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 6912,
+                "n_params": 432,
+                "psize": 1728,
+                "rom_output": {
+                    "c_size": 3072,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 31,
+            "inputs": [
+                "block_3_pad"
+            ],
+            "name": "block_3_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 96,
+                "psize": 384,
+                "rom_size": 0
+            },
+            "id": 32,
+            "inputs": [
+                "block_3_depthwise_conv2d"
+            ],
+            "name": "block_3_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                11
+            ],
+            "extras": {
+                "n_macc": 768,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 1920
+            },
+            "id": 33,
+            "inputs": [
+                "block_3_depthwise_BN"
+            ],
+            "name": "block_3_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 12288,
+                "n_params": 768,
+                "psize": 3072,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        16,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 34,
+            "inputs": [
+                "block_3_depthwise_relu"
+            ],
+            "name": "block_3_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                12
+            ],
+            "extras": {
+                "n_macc": 512,
+                "n_params": 32,
+                "psize": 128,
+                "rom_size": 3136
+            },
+            "id": 35,
+            "inputs": [
+                "block_3_project_conv2d"
+            ],
+            "name": "block_3_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 1536,
+                "psize": 6144,
+                "rom_output": {
+                    "c_size": 6144,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        96,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 36,
+            "inputs": [
+                "block_3_project_BN"
+            ],
+            "name": "block_4_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 192,
+                "psize": 768,
+                "rom_size": 0
+            },
+            "id": 37,
+            "inputs": [
+                "block_4_expand_conv2d"
+            ],
+            "name": "block_4_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                13
+            ],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 6528
+            },
+            "id": 38,
+            "inputs": [
+                "block_4_expand_BN"
+            ],
+            "name": "block_4_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 864,
+                "psize": 3456,
+                "rom_output": {
+                    "c_size": 6144,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        96,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 39,
+            "inputs": [
+                "block_4_expand_relu"
+            ],
+            "name": "block_4_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 192,
+                "psize": 768,
+                "rom_size": 0
+            },
+            "id": 40,
+            "inputs": [
+                "block_4_depthwise_conv2d"
+            ],
+            "name": "block_4_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                14
+            ],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 3840
+            },
+            "id": 41,
+            "inputs": [
+                "block_4_depthwise_BN"
+            ],
+            "name": "block_4_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 1536,
+                "psize": 6144,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        16,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 42,
+            "inputs": [
+                "block_4_depthwise_relu"
+            ],
+            "name": "block_4_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                15
+            ],
+            "extras": {
+                "n_macc": 512,
+                "n_params": 32,
+                "psize": 128,
+                "rom_size": 6208
+            },
+            "id": 43,
+            "inputs": [
+                "block_4_project_conv2d"
+            ],
+            "name": "block_4_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                16
+            ],
+            "extras": {
+                "n_macc": 256,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        16,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 44,
+            "inputs": [
+                "block_3_project_BN",
+                "block_4_project_BN"
+            ],
+            "name": "block_4_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 1536,
+                "psize": 6144,
+                "rom_output": {
+                    "c_size": 6144,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        96,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 45,
+            "inputs": [
+                "block_4_add"
+            ],
+            "name": "block_5_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 192,
+                "psize": 768,
+                "rom_size": 0
+            },
+            "id": 46,
+            "inputs": [
+                "block_5_expand_conv2d"
+            ],
+            "name": "block_5_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                17
+            ],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 6528
+            },
+            "id": 47,
+            "inputs": [
+                "block_5_expand_BN"
+            ],
+            "name": "block_5_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 864,
+                "psize": 3456,
+                "rom_output": {
+                    "c_size": 6144,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        96,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 48,
+            "inputs": [
+                "block_5_expand_relu"
+            ],
+            "name": "block_5_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 192,
+                "psize": 768,
+                "rom_size": 0
+            },
+            "id": 49,
+            "inputs": [
+                "block_5_depthwise_conv2d"
+            ],
+            "name": "block_5_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                18
+            ],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 3840
+            },
+            "id": 50,
+            "inputs": [
+                "block_5_depthwise_BN"
+            ],
+            "name": "block_5_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 1536,
+                "psize": 6144,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        16,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 51,
+            "inputs": [
+                "block_5_depthwise_relu"
+            ],
+            "name": "block_5_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                19
+            ],
+            "extras": {
+                "n_macc": 512,
+                "n_params": 32,
+                "psize": 128,
+                "rom_size": 6208
+            },
+            "id": 52,
+            "inputs": [
+                "block_5_project_conv2d"
+            ],
+            "name": "block_5_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                20
+            ],
+            "extras": {
+                "n_macc": 256,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        16,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 53,
+            "inputs": [
+                "block_4_add",
+                "block_5_project_BN"
+            ],
+            "name": "block_5_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 1536,
+                "psize": 6144,
+                "rom_output": {
+                    "c_size": 6144,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        96,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 54,
+            "inputs": [
+                "block_5_add"
+            ],
+            "name": "block_6_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 192,
+                "psize": 768,
+                "rom_size": 0
+            },
+            "id": 55,
+            "inputs": [
+                "block_6_expand_conv2d"
+            ],
+            "name": "block_6_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                21
+            ],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 6528
+            },
+            "id": 56,
+            "inputs": [
+                "block_6_expand_BN"
+            ],
+            "name": "block_6_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 57,
+            "inputs": [
+                "block_6_expand_relu"
+            ],
+            "name": "block_6_pad",
+            "original": "ZeroPadding2D",
+            "type": "Pad"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3456,
+                "n_params": 864,
+                "psize": 3456,
+                "rom_output": {
+                    "c_size": 1536,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        96,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 58,
+            "inputs": [
+                "block_6_pad"
+            ],
+            "name": "block_6_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 768,
+                "n_params": 192,
+                "psize": 768,
+                "rom_size": 0
+            },
+            "id": 59,
+            "inputs": [
+                "block_6_depthwise_conv2d"
+            ],
+            "name": "block_6_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                22
+            ],
+            "extras": {
+                "n_macc": 384,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 3840
+            },
+            "id": 60,
+            "inputs": [
+                "block_6_depthwise_BN"
+            ],
+            "name": "block_6_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 9216,
+                "n_params": 2304,
+                "psize": 9216,
+                "rom_output": {
+                    "c_size": 384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 61,
+            "inputs": [
+                "block_6_depthwise_relu"
+            ],
+            "name": "block_6_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                23
+            ],
+            "extras": {
+                "n_macc": 192,
+                "n_params": 48,
+                "psize": 192,
+                "rom_size": 9312
+            },
+            "id": 62,
+            "inputs": [
+                "block_6_project_conv2d"
+            ],
+            "name": "block_6_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 3456,
+                "psize": 13824,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 63,
+            "inputs": [
+                "block_6_project_BN"
+            ],
+            "name": "block_7_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 64,
+            "inputs": [
+                "block_7_expand_conv2d"
+            ],
+            "name": "block_7_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                24
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 14400
+            },
+            "id": 65,
+            "inputs": [
+                "block_7_expand_BN"
+            ],
+            "name": "block_7_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 5184,
+                "n_params": 1296,
+                "psize": 5184,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 66,
+            "inputs": [
+                "block_7_expand_relu"
+            ],
+            "name": "block_7_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 67,
+            "inputs": [
+                "block_7_depthwise_conv2d"
+            ],
+            "name": "block_7_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                25
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 5760
+            },
+            "id": 68,
+            "inputs": [
+                "block_7_depthwise_BN"
+            ],
+            "name": "block_7_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 3456,
+                "psize": 13824,
+                "rom_output": {
+                    "c_size": 384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 69,
+            "inputs": [
+                "block_7_depthwise_relu"
+            ],
+            "name": "block_7_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                26
+            ],
+            "extras": {
+                "n_macc": 192,
+                "n_params": 48,
+                "psize": 192,
+                "rom_size": 13920
+            },
+            "id": 70,
+            "inputs": [
+                "block_7_project_conv2d"
+            ],
+            "name": "block_7_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                27
+            ],
+            "extras": {
+                "n_macc": 96,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 71,
+            "inputs": [
+                "block_6_project_BN",
+                "block_7_project_BN"
+            ],
+            "name": "block_7_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 3456,
+                "psize": 13824,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 72,
+            "inputs": [
+                "block_7_add"
+            ],
+            "name": "block_8_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 73,
+            "inputs": [
+                "block_8_expand_conv2d"
+            ],
+            "name": "block_8_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                28
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 14400
+            },
+            "id": 74,
+            "inputs": [
+                "block_8_expand_BN"
+            ],
+            "name": "block_8_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 5184,
+                "n_params": 1296,
+                "psize": 5184,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 75,
+            "inputs": [
+                "block_8_expand_relu"
+            ],
+            "name": "block_8_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 76,
+            "inputs": [
+                "block_8_depthwise_conv2d"
+            ],
+            "name": "block_8_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                29
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 5760
+            },
+            "id": 77,
+            "inputs": [
+                "block_8_depthwise_BN"
+            ],
+            "name": "block_8_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 3456,
+                "psize": 13824,
+                "rom_output": {
+                    "c_size": 384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 78,
+            "inputs": [
+                "block_8_depthwise_relu"
+            ],
+            "name": "block_8_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                30
+            ],
+            "extras": {
+                "n_macc": 192,
+                "n_params": 48,
+                "psize": 192,
+                "rom_size": 13920
+            },
+            "id": 79,
+            "inputs": [
+                "block_8_project_conv2d"
+            ],
+            "name": "block_8_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                31
+            ],
+            "extras": {
+                "n_macc": 96,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 80,
+            "inputs": [
+                "block_7_add",
+                "block_8_project_BN"
+            ],
+            "name": "block_8_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 3456,
+                "psize": 13824,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 81,
+            "inputs": [
+                "block_8_add"
+            ],
+            "name": "block_9_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 82,
+            "inputs": [
+                "block_9_expand_conv2d"
+            ],
+            "name": "block_9_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                32
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 14400
+            },
+            "id": 83,
+            "inputs": [
+                "block_9_expand_BN"
+            ],
+            "name": "block_9_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 5184,
+                "n_params": 1296,
+                "psize": 5184,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 84,
+            "inputs": [
+                "block_9_expand_relu"
+            ],
+            "name": "block_9_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 85,
+            "inputs": [
+                "block_9_depthwise_conv2d"
+            ],
+            "name": "block_9_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                33
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 5760
+            },
+            "id": 86,
+            "inputs": [
+                "block_9_depthwise_BN"
+            ],
+            "name": "block_9_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 3456,
+                "psize": 13824,
+                "rom_output": {
+                    "c_size": 384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 87,
+            "inputs": [
+                "block_9_depthwise_relu"
+            ],
+            "name": "block_9_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                34
+            ],
+            "extras": {
+                "n_macc": 192,
+                "n_params": 48,
+                "psize": 192,
+                "rom_size": 13920
+            },
+            "id": 88,
+            "inputs": [
+                "block_9_project_conv2d"
+            ],
+            "name": "block_9_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                35
+            ],
+            "extras": {
+                "n_macc": 96,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 384,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 89,
+            "inputs": [
+                "block_8_add",
+                "block_9_project_BN"
+            ],
+            "name": "block_9_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 13824,
+                "n_params": 3456,
+                "psize": 13824,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 90,
+            "inputs": [
+                "block_9_add"
+            ],
+            "name": "block_10_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 91,
+            "inputs": [
+                "block_10_expand_conv2d"
+            ],
+            "name": "block_10_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                36
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 14400
+            },
+            "id": 92,
+            "inputs": [
+                "block_10_expand_BN"
+            ],
+            "name": "block_10_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 5184,
+                "n_params": 1296,
+                "psize": 5184,
+                "rom_output": {
+                    "c_size": 2304,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        144,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 93,
+            "inputs": [
+                "block_10_expand_relu"
+            ],
+            "name": "block_10_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1152,
+                "n_params": 288,
+                "psize": 1152,
+                "rom_size": 0
+            },
+            "id": 94,
+            "inputs": [
+                "block_10_depthwise_conv2d"
+            ],
+            "name": "block_10_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                37
+            ],
+            "extras": {
+                "n_macc": 576,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 5760
+            },
+            "id": 95,
+            "inputs": [
+                "block_10_depthwise_BN"
+            ],
+            "name": "block_10_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 18432,
+                "n_params": 4608,
+                "psize": 18432,
+                "rom_output": {
+                    "c_size": 512,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        32,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 96,
+            "inputs": [
+                "block_10_depthwise_relu"
+            ],
+            "name": "block_10_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                38
+            ],
+            "extras": {
+                "n_macc": 256,
+                "n_params": 64,
+                "psize": 256,
+                "rom_size": 18560
+            },
+            "id": 97,
+            "inputs": [
+                "block_10_project_conv2d"
+            ],
+            "name": "block_10_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 6144,
+                "psize": 24576,
+                "rom_output": {
+                    "c_size": 3072,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        192,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 98,
+            "inputs": [
+                "block_10_project_BN"
+            ],
+            "name": "block_11_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_size": 0
+            },
+            "id": 99,
+            "inputs": [
+                "block_11_expand_conv2d"
+            ],
+            "name": "block_11_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                39
+            ],
+            "extras": {
+                "n_macc": 768,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 25344
+            },
+            "id": 100,
+            "inputs": [
+                "block_11_expand_BN"
+            ],
+            "name": "block_11_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 6912,
+                "n_params": 1728,
+                "psize": 6912,
+                "rom_output": {
+                    "c_size": 3072,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        192,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 101,
+            "inputs": [
+                "block_11_expand_relu"
+            ],
+            "name": "block_11_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_size": 0
+            },
+            "id": 102,
+            "inputs": [
+                "block_11_depthwise_conv2d"
+            ],
+            "name": "block_11_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                40
+            ],
+            "extras": {
+                "n_macc": 768,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 7680
+            },
+            "id": 103,
+            "inputs": [
+                "block_11_depthwise_BN"
+            ],
+            "name": "block_11_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 6144,
+                "psize": 24576,
+                "rom_output": {
+                    "c_size": 512,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        32,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 104,
+            "inputs": [
+                "block_11_depthwise_relu"
+            ],
+            "name": "block_11_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                41
+            ],
+            "extras": {
+                "n_macc": 256,
+                "n_params": 64,
+                "psize": 256,
+                "rom_size": 24704
+            },
+            "id": 105,
+            "inputs": [
+                "block_11_project_conv2d"
+            ],
+            "name": "block_11_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                42
+            ],
+            "extras": {
+                "n_macc": 128,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 512,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        32,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 106,
+            "inputs": [
+                "block_10_project_BN",
+                "block_11_project_BN"
+            ],
+            "name": "block_11_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 6144,
+                "psize": 24576,
+                "rom_output": {
+                    "c_size": 3072,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        192,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 107,
+            "inputs": [
+                "block_11_add"
+            ],
+            "name": "block_12_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_size": 0
+            },
+            "id": 108,
+            "inputs": [
+                "block_12_expand_conv2d"
+            ],
+            "name": "block_12_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                43
+            ],
+            "extras": {
+                "n_macc": 768,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 25344
+            },
+            "id": 109,
+            "inputs": [
+                "block_12_expand_BN"
+            ],
+            "name": "block_12_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 6912,
+                "n_params": 1728,
+                "psize": 6912,
+                "rom_output": {
+                    "c_size": 3072,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        192,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 110,
+            "inputs": [
+                "block_12_expand_relu"
+            ],
+            "name": "block_12_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_size": 0
+            },
+            "id": 111,
+            "inputs": [
+                "block_12_depthwise_conv2d"
+            ],
+            "name": "block_12_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                44
+            ],
+            "extras": {
+                "n_macc": 768,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 7680
+            },
+            "id": 112,
+            "inputs": [
+                "block_12_depthwise_BN"
+            ],
+            "name": "block_12_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 6144,
+                "psize": 24576,
+                "rom_output": {
+                    "c_size": 512,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        32,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 113,
+            "inputs": [
+                "block_12_depthwise_relu"
+            ],
+            "name": "block_12_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                45
+            ],
+            "extras": {
+                "n_macc": 256,
+                "n_params": 64,
+                "psize": 256,
+                "rom_size": 24704
+            },
+            "id": 114,
+            "inputs": [
+                "block_12_project_conv2d"
+            ],
+            "name": "block_12_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                46
+            ],
+            "extras": {
+                "n_macc": 128,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 512,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        32,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 115,
+            "inputs": [
+                "block_11_add",
+                "block_12_project_BN"
+            ],
+            "name": "block_12_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 24576,
+                "n_params": 6144,
+                "psize": 24576,
+                "rom_output": {
+                    "c_size": 3072,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        192,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 116,
+            "inputs": [
+                "block_12_add"
+            ],
+            "name": "block_13_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1536,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_size": 0
+            },
+            "id": 117,
+            "inputs": [
+                "block_13_expand_conv2d"
+            ],
+            "name": "block_13_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                47
+            ],
+            "extras": {
+                "n_macc": 768,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 25344
+            },
+            "id": 118,
+            "inputs": [
+                "block_13_expand_BN"
+            ],
+            "name": "block_13_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 119,
+            "inputs": [
+                "block_13_expand_relu"
+            ],
+            "name": "block_13_pad",
+            "original": "ZeroPadding2D",
+            "type": "Pad"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1728,
+                "n_params": 1728,
+                "psize": 6912,
+                "rom_output": {
+                    "c_size": 768,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        192,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 120,
+            "inputs": [
+                "block_13_pad"
+            ],
+            "name": "block_13_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 384,
+                "n_params": 384,
+                "psize": 1536,
+                "rom_size": 0
+            },
+            "id": 121,
+            "inputs": [
+                "block_13_depthwise_conv2d"
+            ],
+            "name": "block_13_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                48
+            ],
+            "extras": {
+                "n_macc": 192,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 7680
+            },
+            "id": 122,
+            "inputs": [
+                "block_13_depthwise_BN"
+            ],
+            "name": "block_13_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 10752,
+                "n_params": 10752,
+                "psize": 43008,
+                "rom_output": {
+                    "c_size": 224,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        56,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 123,
+            "inputs": [
+                "block_13_depthwise_relu"
+            ],
+            "name": "block_13_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                49
+            ],
+            "extras": {
+                "n_macc": 112,
+                "n_params": 112,
+                "psize": 448,
+                "rom_size": 43232
+            },
+            "id": 124,
+            "inputs": [
+                "block_13_project_conv2d"
+            ],
+            "name": "block_13_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 18816,
+                "n_params": 18816,
+                "psize": 75264,
+                "rom_output": {
+                    "c_size": 1344,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        336,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 125,
+            "inputs": [
+                "block_13_project_BN"
+            ],
+            "name": "block_14_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 672,
+                "n_params": 672,
+                "psize": 2688,
+                "rom_size": 0
+            },
+            "id": 126,
+            "inputs": [
+                "block_14_expand_conv2d"
+            ],
+            "name": "block_14_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                50
+            ],
+            "extras": {
+                "n_macc": 336,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 76608
+            },
+            "id": 127,
+            "inputs": [
+                "block_14_expand_BN"
+            ],
+            "name": "block_14_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3024,
+                "n_params": 3024,
+                "psize": 12096,
+                "rom_output": {
+                    "c_size": 1344,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        336,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 128,
+            "inputs": [
+                "block_14_expand_relu"
+            ],
+            "name": "block_14_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 672,
+                "n_params": 672,
+                "psize": 2688,
+                "rom_size": 0
+            },
+            "id": 129,
+            "inputs": [
+                "block_14_depthwise_conv2d"
+            ],
+            "name": "block_14_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                51
+            ],
+            "extras": {
+                "n_macc": 336,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 13440
+            },
+            "id": 130,
+            "inputs": [
+                "block_14_depthwise_BN"
+            ],
+            "name": "block_14_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 18816,
+                "n_params": 18816,
+                "psize": 75264,
+                "rom_output": {
+                    "c_size": 224,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        56,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 131,
+            "inputs": [
+                "block_14_depthwise_relu"
+            ],
+            "name": "block_14_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                52
+            ],
+            "extras": {
+                "n_macc": 112,
+                "n_params": 112,
+                "psize": 448,
+                "rom_size": 75488
+            },
+            "id": 132,
+            "inputs": [
+                "block_14_project_conv2d"
+            ],
+            "name": "block_14_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                53
+            ],
+            "extras": {
+                "n_macc": 56,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 224,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        56,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 133,
+            "inputs": [
+                "block_13_project_BN",
+                "block_14_project_BN"
+            ],
+            "name": "block_14_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 18816,
+                "n_params": 18816,
+                "psize": 75264,
+                "rom_output": {
+                    "c_size": 1344,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        336,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 134,
+            "inputs": [
+                "block_14_add"
+            ],
+            "name": "block_15_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 672,
+                "n_params": 672,
+                "psize": 2688,
+                "rom_size": 0
+            },
+            "id": 135,
+            "inputs": [
+                "block_15_expand_conv2d"
+            ],
+            "name": "block_15_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                54
+            ],
+            "extras": {
+                "n_macc": 336,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 76608
+            },
+            "id": 136,
+            "inputs": [
+                "block_15_expand_BN"
+            ],
+            "name": "block_15_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3024,
+                "n_params": 3024,
+                "psize": 12096,
+                "rom_output": {
+                    "c_size": 1344,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        336,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 137,
+            "inputs": [
+                "block_15_expand_relu"
+            ],
+            "name": "block_15_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 672,
+                "n_params": 672,
+                "psize": 2688,
+                "rom_size": 0
+            },
+            "id": 138,
+            "inputs": [
+                "block_15_depthwise_conv2d"
+            ],
+            "name": "block_15_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                55
+            ],
+            "extras": {
+                "n_macc": 336,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 13440
+            },
+            "id": 139,
+            "inputs": [
+                "block_15_depthwise_BN"
+            ],
+            "name": "block_15_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 18816,
+                "n_params": 18816,
+                "psize": 75264,
+                "rom_output": {
+                    "c_size": 224,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        56,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 140,
+            "inputs": [
+                "block_15_depthwise_relu"
+            ],
+            "name": "block_15_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                56
+            ],
+            "extras": {
+                "n_macc": 112,
+                "n_params": 112,
+                "psize": 448,
+                "rom_size": 75488
+            },
+            "id": 141,
+            "inputs": [
+                "block_15_project_conv2d"
+            ],
+            "name": "block_15_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                57
+            ],
+            "extras": {
+                "n_macc": 56,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 224,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        56,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 142,
+            "inputs": [
+                "block_14_add",
+                "block_15_project_BN"
+            ],
+            "name": "block_15_add",
+            "original": "Add",
+            "type": "Eltwise"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 18816,
+                "n_params": 18816,
+                "psize": 75264,
+                "rom_output": {
+                    "c_size": 1344,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        336,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 143,
+            "inputs": [
+                "block_15_add"
+            ],
+            "name": "block_16_expand_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 672,
+                "n_params": 672,
+                "psize": 2688,
+                "rom_size": 0
+            },
+            "id": 144,
+            "inputs": [
+                "block_16_expand_conv2d"
+            ],
+            "name": "block_16_expand_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                58
+            ],
+            "extras": {
+                "n_macc": 336,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 76608
+            },
+            "id": 145,
+            "inputs": [
+                "block_16_expand_BN"
+            ],
+            "name": "block_16_expand_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3024,
+                "n_params": 3024,
+                "psize": 12096,
+                "rom_output": {
+                    "c_size": 1344,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        336,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 146,
+            "inputs": [
+                "block_16_expand_relu"
+            ],
+            "name": "block_16_depthwise_conv2d",
+            "original": "DepthwiseConv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 672,
+                "n_params": 672,
+                "psize": 2688,
+                "rom_size": 0
+            },
+            "id": 147,
+            "inputs": [
+                "block_16_depthwise_conv2d"
+            ],
+            "name": "block_16_depthwise_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                59
+            ],
+            "extras": {
+                "n_macc": 336,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 13440
+            },
+            "id": 148,
+            "inputs": [
+                "block_16_depthwise_BN"
+            ],
+            "name": "block_16_depthwise_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 37632,
+                "n_params": 37632,
+                "psize": 150528,
+                "rom_output": {
+                    "c_size": 448,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        112,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 149,
+            "inputs": [
+                "block_16_depthwise_relu"
+            ],
+            "name": "block_16_project_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [
+                60
+            ],
+            "extras": {
+                "n_macc": 224,
+                "n_params": 224,
+                "psize": 896,
+                "rom_size": 150976
+            },
+            "id": 150,
+            "inputs": [
+                "block_16_project_conv2d"
+            ],
+            "name": "block_16_project_BN",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 143360,
+                "n_params": 143360,
+                "psize": 573440,
+                "rom_output": {
+                    "c_size": 5120,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        1280,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 151,
+            "inputs": [
+                "block_16_project_BN"
+            ],
+            "name": "Conv_1_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 2560,
+                "n_params": 2560,
+                "psize": 10240,
+                "rom_size": 0
+            },
+            "id": 152,
+            "inputs": [
+                "Conv_1_conv2d"
+            ],
+            "name": "Conv_1_bn",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                61
+            ],
+            "extras": {
+                "n_macc": 1280,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 578560
+            },
+            "id": 153,
+            "inputs": [
+                "Conv_1_bn"
+            ],
+            "name": "out_relu",
+            "original": "ReLU",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "out_relu"
+            ],
+            "name": "reshape",
+            "original": "Reshape",
+            "type": "Reshape"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 10248,
+                "n_params": 10248,
+                "psize": 40992,
+                "rom_output": {
+                    "c_size": 32,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        8,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 2,
+            "inputs": [
+                "reshape"
+            ],
+            "name": "dense_dense",
+            "original": "Dense",
+            "type": "Dense"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 8,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 32,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        8,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 2,
+            "inputs": [
+                "dense_dense"
+            ],
+            "name": "dense",
+            "original": "Dense",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 4,
+            "inputs": [
+                "dense"
+            ],
+            "name": "flatten",
+            "original": "Flatten",
+            "type": "Reshape"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 90,
+                "n_params": 90,
+                "psize": 360,
+                "rom_output": {
+                    "c_size": 40,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        10,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "flatten"
+            ],
+            "name": "dense_1_dense",
+            "original": "Dense",
+            "type": "Dense"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 150,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 40,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        10,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "dense_1_dense"
+            ],
+            "name": "dense_1",
+            "original": "Dense",
+            "type": "Nonlinearity"
+        }
+    ],
+    "model_files": [
+        "/home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI3/model/CIFAR_32x32_V2_035.h5"
+    ],
+    "model_n_params": 406466,
+    "model_name": "CIFAR_32x32_V2_035",
+    "model_size": 1625864,
+    "model_type": "keras",
+    "name": "network",
+    "outputs": [
+        "dense_1"
+    ],
+    "ram_io_size": [
+        12288,
+        40
+    ],
+    "ram_size": [
+        56512,
+        56512
+    ],
+    "report_version": 1.1,
+    "rom_cfact": 1.0,
+    "rom_heap_inspector": 2048,
+    "rom_inputs": [
+        {
+            "c_size": 12288,
+            "c_type": "float",
+            "name": "input_0"
+        }
+    ],
+    "rom_n_macc": 1310080,
+    "rom_outputs": [
+        {
+            "c_size": 40,
+            "c_type": "float",
+            "name": "dense_1"
+        }
+    ],
+    "rom_size": 1597704,
+    "strategy": "heap_overlay",
+    "tools_api_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 7
+    },
+    "tools_version": {
+        "extra": "19389",
+        "major": 8,
+        "micro": 0,
+        "minor": 0
+    },
+    "val_error": -1.0,
+    "val_error_desc": "None (None) #-1",
+    "val_metrics": []
+}

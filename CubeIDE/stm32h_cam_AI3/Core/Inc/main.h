@@ -47,7 +47,7 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 #define HARDWARE "1.00"  // Версия железа
-#define SOFTWARE "1.20"  // Версия программы
+#define SOFTWARE "1.25"  // Версия программы
 #define hFONT2   14      // высота шрифта в точках FONT2
 
 /* USER CODE END EM */

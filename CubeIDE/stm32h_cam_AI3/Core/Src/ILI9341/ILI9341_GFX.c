@@ -254,7 +254,7 @@ void ILI9341_render320x240(uint16_t *frameBuffer, uint16_t hh)
 }
 
 // Вывести буфер на экран с координатами x,y и размером w,h
-void ILI9341_render160x160(uint16_t *frameBuffer,int16_t x,int16_t y,int16_t w,int16_t h, bool frame)
+void ILI9341_render160x160(uint16_t *frameBuffer,int16_t x,int16_t y,int16_t w,int16_t h)
 {
 	ILI9341_SetAddress(x, y, w-1, h-1);
 	HAL_GPIO_WritePin(LCD_DC_PORT, LCD_DC_PIN, GPIO_PIN_SET); //data
@@ -262,15 +262,10 @@ void ILI9341_render160x160(uint16_t *frameBuffer,int16_t x,int16_t y,int16_t w,i
 
 	uint8_t test = 0;
 	HAL_SPI_Transmit(HSPI_INSTANCE, &test, 1, 1000);
-//	HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer, 160*160*2);
 	HAL_SPI_Transmit_DMA(HSPI_INSTANCE, (uint8_t*)frameBuffer, w*h*2);
 	while(HAL_SPI_GetState(HSPI_INSTANCE) != HAL_SPI_STATE_READY);
 	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, GPIO_PIN_SET);	//deselect//
 
-	if(frame){ //нарисовать рамку
-        	ILI9341_DrawHLine(0, h, h, PINK);
-	        ILI9341_DrawVLine(w, 0, w, PINK);
-	       }
 }
 
 
