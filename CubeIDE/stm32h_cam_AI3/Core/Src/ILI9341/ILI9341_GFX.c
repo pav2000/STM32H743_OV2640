@@ -256,7 +256,7 @@ void ILI9341_render320x240(uint16_t *frameBuffer, uint16_t hh)
 // Вывести буфер на экран с координатами x,y и размером w,h
 void ILI9341_render160x160(uint16_t *frameBuffer,int16_t x,int16_t y,int16_t w,int16_t h)
 {
-	ILI9341_SetAddress(x, y, w-1, h-1);
+	ILI9341_SetAddress(x, y, x+w-1, y+h-1);
 	HAL_GPIO_WritePin(LCD_DC_PORT, LCD_DC_PIN, GPIO_PIN_SET); //data
 	HAL_GPIO_WritePin(LCD_CS_PORT, LCD_CS_PIN, GPIO_PIN_RESET); //select
 

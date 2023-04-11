@@ -305,12 +305,12 @@ int main(void)
       if (!pause){ // если нет паузы
 	         old_time=HAL_GetTick();
 		     sensor.snapshot(hdcmi, (int32_t *)imag);
-		     ILI9341_render160x160((uint16_t *)imag,0,0,160,160);
+		     ILI9341_render160x160((uint16_t *)imag,30,35,160,160);
 		     uint8_t number = run_AI((uint16_t*)imag, avr); // Запуск нейросети
 		     fps=HAL_GetTick()-old_time;
 		     sprintf(buf,"FPS=%d ",(int)(1000/fps));
 		     ILI9341_DrawText(buf, FONT2, 2, 240-1*hFONT2+1, BLACK, WHITE);
-		     ILI9341_DrawText(lable[number], FONT4,220, 45, BLUE, LIGHTGREY);
+		     ILI9341_DrawText(lable[number], FONT4, 80, 10, BLUE, LIGHTGREY);
 		     for(int j = 0; j < 10; j ++)
 		     {
 		    	 sprintf(buf,"%.2f",output[j]);
