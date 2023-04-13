@@ -1,0 +1,621 @@
+{
+    "_allocate_inputs": 4,
+    "_allocate_outputs": 4,
+    "cli_parameters": "analyze --name network -m /home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI4/model/mnist-model.h5 --type keras --compression none --verbosity 1 --workspace /tmp/mxAI_workspace1183143275348333355124516650222757 --output /home/pavel/.stm32cubemx/network_output --allocate-inputs --series stm32h7 --allocate-outputs",
+    "cli_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 7
+    },
+    "cli_version_str": "1.7.0",
+    "compression": {
+        "factor": null,
+        "layers": {}
+    },
+    "date_time": "Thu Apr 13 12:14:25 2023",
+    "error": 0,
+    "error_str": [],
+    "exec_cmd": "analyze",
+    "exec_duration": 0.0,
+    "hash": "b34413746b3605dc78f50d871ca72101",
+    "inputs": [
+        "input_0"
+    ],
+    "layers": [
+        {
+            "c_id": [
+                0
+            ],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 3136,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        28,
+                        28,
+                        1,
+                        1
+                    ]
+                },
+                "rom_size": 2560
+            },
+            "id": 0,
+            "inputs": [],
+            "name": "input_0",
+            "original": null,
+            "type": "Input"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 389440,
+                "n_params": 640,
+                "psize": 2560,
+                "rom_output": {
+                    "c_size": 173056,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        26,
+                        26,
+                        64,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [
+                "input_0"
+            ],
+            "name": "conv2d_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 43264,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [
+                "conv2d_conv2d"
+            ],
+            "name": "conv2d",
+            "original": "Conv2D",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 21233728,
+                "n_params": 36928,
+                "psize": 147712,
+                "rom_output": {
+                    "c_size": 36864,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        12,
+                        12,
+                        64,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "conv2d"
+            ],
+            "name": "conv2d_1_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 36864,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "conv2d_1_conv2d"
+            ],
+            "name": "conv2d_1",
+            "original": "Conv2D",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                1
+            ],
+            "extras": {
+                "n_macc": 36864,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 147712
+            },
+            "id": 2,
+            "inputs": [
+                "conv2d_1"
+            ],
+            "name": "max_pooling2d",
+            "original": "MaxPooling2D",
+            "type": "Pool"
+        },
+        {
+            "c_id": [
+                2
+            ],
+            "extras": {
+                "n_macc": 18432,
+                "n_params": 128,
+                "psize": 512,
+                "rom_output": {
+                    "c_size": 36864,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        12,
+                        12,
+                        64,
+                        1
+                    ]
+                },
+                "rom_size": 512
+            },
+            "id": 3,
+            "inputs": [
+                "max_pooling2d"
+            ],
+            "name": "batch_normalization",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                3
+            ],
+            "extras": {
+                "n_macc": 7372928,
+                "n_params": 73856,
+                "psize": 295424,
+                "rom_output": {
+                    "c_size": 51200,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        10,
+                        10,
+                        128,
+                        1
+                    ]
+                },
+                "rom_size": 295424
+            },
+            "id": 4,
+            "inputs": [
+                "batch_normalization"
+            ],
+            "name": "conv2d_2_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 12800,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 4,
+            "inputs": [
+                "conv2d_2_conv2d"
+            ],
+            "name": "conv2d_2",
+            "original": "Conv2D",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 9437312,
+                "n_params": 147584,
+                "psize": 590336,
+                "rom_output": {
+                    "c_size": 8192,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        128,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "conv2d_2"
+            ],
+            "name": "conv2d_3_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 8192,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "conv2d_3_conv2d"
+            ],
+            "name": "conv2d_3",
+            "original": "Conv2D",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                4
+            ],
+            "extras": {
+                "n_macc": 8192,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 590336
+            },
+            "id": 6,
+            "inputs": [
+                "conv2d_3"
+            ],
+            "name": "max_pooling2d_1",
+            "original": "MaxPooling2D",
+            "type": "Pool"
+        },
+        {
+            "c_id": [
+                5
+            ],
+            "extras": {
+                "n_macc": 4096,
+                "n_params": 256,
+                "psize": 1024,
+                "rom_output": {
+                    "c_size": 8192,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        4,
+                        4,
+                        128,
+                        1
+                    ]
+                },
+                "rom_size": 1024
+            },
+            "id": 7,
+            "inputs": [
+                "max_pooling2d_1"
+            ],
+            "name": "batch_normalization_1",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                6
+            ],
+            "extras": {
+                "n_macc": 1179904,
+                "n_params": 295168,
+                "psize": 1180672,
+                "rom_output": {
+                    "c_size": 4096,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        2,
+                        2,
+                        256,
+                        1
+                    ]
+                },
+                "rom_size": 1180672
+            },
+            "id": 8,
+            "inputs": [
+                "batch_normalization_1"
+            ],
+            "name": "conv2d_4_conv2d",
+            "original": "Conv2D",
+            "type": "Conv2D"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 1024,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 8,
+            "inputs": [
+                "conv2d_4_conv2d"
+            ],
+            "name": "conv2d_4",
+            "original": "Conv2D",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                7
+            ],
+            "extras": {
+                "n_macc": 1024,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        256,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 9,
+            "inputs": [
+                "conv2d_4"
+            ],
+            "name": "max_pooling2d_2",
+            "original": "MaxPooling2D",
+            "type": "Pool"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 10,
+            "inputs": [
+                "max_pooling2d_2"
+            ],
+            "name": "flatten",
+            "original": "Flatten",
+            "type": "Reshape"
+        },
+        {
+            "c_id": [
+                8
+            ],
+            "extras": {
+                "n_macc": 512,
+                "n_params": 512,
+                "psize": 2048,
+                "rom_output": {
+                    "c_size": 1024,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        256,
+                        1
+                    ]
+                },
+                "rom_size": 2048
+            },
+            "id": 11,
+            "inputs": [
+                "flatten"
+            ],
+            "name": "batch_normalization_2",
+            "original": "BatchNormalization",
+            "type": "ScaleBias"
+        },
+        {
+            "c_id": [
+                9,
+                10
+            ],
+            "extras": {
+                "n_macc": 131584,
+                "n_params": 131584,
+                "psize": 526336,
+                "rom_output": {
+                    "c_size": 2048,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        512,
+                        1
+                    ]
+                },
+                "rom_size": 526336
+            },
+            "id": 12,
+            "inputs": [
+                "batch_normalization_2"
+            ],
+            "name": "dense_dense",
+            "original": "Dense",
+            "type": "Dense"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 512,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 2048,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        512,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 12,
+            "inputs": [
+                "dense_dense"
+            ],
+            "name": "dense",
+            "original": "Dense",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                11,
+                12
+            ],
+            "extras": {
+                "n_macc": 5130,
+                "n_params": 5130,
+                "psize": 20520,
+                "rom_output": {
+                    "c_size": 40,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        10,
+                        1
+                    ]
+                },
+                "rom_size": 20520
+            },
+            "id": 13,
+            "inputs": [
+                "dense"
+            ],
+            "name": "dense_1_dense",
+            "original": "Dense",
+            "type": "Dense"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 150,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 40,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        10,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 13,
+            "inputs": [
+                "dense_1_dense"
+            ],
+            "name": "dense_1",
+            "original": "Dense",
+            "type": "Nonlinearity"
+        }
+    ],
+    "model_files": [
+        "/home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI4/model/mnist-model.h5"
+    ],
+    "model_n_params": 691786,
+    "model_name": "mnistmodel",
+    "model_size": 2767144,
+    "model_type": "keras",
+    "name": "network",
+    "outputs": [
+        "dense_1"
+    ],
+    "ram_io_size": [
+        3136,
+        40
+    ],
+    "ram_size": [
+        188416,
+        188416
+    ],
+    "report_version": 1.1,
+    "rom_cfact": 1.0,
+    "rom_heap_inspector": 2048,
+    "rom_inputs": [
+        {
+            "c_size": 3136,
+            "c_type": "float",
+            "name": "input_0"
+        }
+    ],
+    "rom_n_macc": 39921952,
+    "rom_outputs": [
+        {
+            "c_size": 40,
+            "c_type": "float",
+            "name": "dense_1"
+        }
+    ],
+    "rom_size": 2767144,
+    "strategy": "heap_overlay",
+    "tools_api_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 7
+    },
+    "tools_version": {
+        "extra": "19389",
+        "major": 8,
+        "micro": 0,
+        "minor": 0
+    },
+    "val_error": -1.0,
+    "val_error_desc": "None (None) #-1",
+    "val_metrics": []
+}

@@ -276,6 +276,7 @@ int main(void)
 	   {
 	    ILI9341_DrawText(lable[j], FONT2,220, 70+j*hFONT2, BLACK, LIGHTGREY);
 	    }
+  ILI9341_DrawText("CFAIR10", FONT4, 220, 50, RED, LIGHTGREY);
   /* USER CODE END 2 */
 
   /* Infinite loop */
