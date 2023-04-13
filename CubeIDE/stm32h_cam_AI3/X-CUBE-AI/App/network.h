@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    network.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Tue Apr 11 10:48:22 2023
+  * @date    Thu Apr 13 15:30:33 2023
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -25,7 +25,7 @@
 
 /******************************************************************************/
 #define AI_NETWORK_MODEL_NAME          "network"
-#define AI_NETWORK_ORIGIN_MODEL_NAME   "cifar_32x32_v2_035"
+#define AI_NETWORK_ORIGIN_MODEL_NAME   "cifar10"
 
 /******************************************************************************/
 #define AI_NETWORK_ACTIVATIONS_ALIGNMENT   (4)
@@ -69,7 +69,7 @@ AI_DEPRECATED
 #define AI_NETWORK_OUT_1_SIZE_BYTES  (40)
 
 /******************************************************************************/
-#define AI_NETWORK_N_NODES (66)
+#define AI_NETWORK_N_NODES (6)
 
 
 AI_API_DECLARE_BEGIN

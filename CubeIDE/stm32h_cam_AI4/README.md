@@ -34,6 +34,7 @@
 Результат распознавания получился не очень качественным, сеть часто ошибается, модель надо оптимизировать.<br>
 Результаты работы на целевом устройстве - пример распознавания некоторых классов.<br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI4/picture/2.jpg" width="320" /> <br>
+<img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI4/picture/9.jpg" width="320" /> <br>
 <img src="https://github.com/pav2000/STM32H743_OV2640/blob/main/CubeIDE/stm32h_cam_AI4/picture/4.jpg" width="320" /> <br>
 <br>
 <br>

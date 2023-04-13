@@ -243,7 +243,7 @@ int main(void)
   MX_I2C3_Init();
   MX_RTC_Init();
   MX_CRC_Init();
-//  MX_X_CUBE_AI_Init();
+ // MX_X_CUBE_AI_Init();
   /* USER CODE BEGIN 2 */
   //  MX_X_CUBE_AI_Init(); НЕОБХОДИМО ЗАКОМЕНТИРОВАТЬ, нейросеть создается функцией  init_AI(); ниже по коду
    HAL_GPIO_WritePin(RST_CAM_GPIO_Port, RST_CAM_Pin, GPIO_PIN_SET);
@@ -322,7 +322,7 @@ int main(void)
      //  MX_X_CUBE_AI_Process(); НЕОБХОДИМО ЗАКОМЕНТИРОВАТЬ, нейросеть запускается кодом выше
     /* USER CODE END WHILE */
 
-//  MX_X_CUBE_AI_Process();
+ // MX_X_CUBE_AI_Process();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
