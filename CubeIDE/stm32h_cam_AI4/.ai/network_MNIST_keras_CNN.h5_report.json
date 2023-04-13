@@ -1,7 +1,7 @@
 {
     "_allocate_inputs": 4,
     "_allocate_outputs": 4,
-    "cli_parameters": "generate --name network -m /home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI4/model/MNIST_keras_CNN.h5 --type keras --compression none --verbosity 1 --workspace /tmp/mxAI_workspace1196447901303258814318679198359713 --output /home/pavel/.stm32cubemx/network_output --allocate-inputs --series stm32h7 --allocate-outputs",
+    "cli_parameters": "analyze --name network -m /home/pavel/STM32CubeIDE/workspace_1.3.0/stm32h_cam_AI4/model/MNIST_keras_CNN.h5 --type keras --compression none --verbosity 1 --workspace /tmp/mxAI_workspace12161031633040112452584529011085335 --output /home/pavel/.stm32cubemx/network_output --allocate-inputs --series stm32h7 --allocate-outputs",
     "cli_version": {
         "major": 1,
         "micro": 0,
@@ -12,10 +12,10 @@
         "factor": null,
         "layers": {}
     },
-    "date_time": "Thu Apr 13 12:36:30 2023",
+    "date_time": "Thu Apr 13 13:09:18 2023",
     "error": 0,
     "error_str": [],
-    "exec_cmd": "generate",
+    "exec_cmd": "analyze",
     "exec_duration": 0.0,
     "hash": "7f0e4dd111fa0703da427000340d94d3",
     "inputs": [

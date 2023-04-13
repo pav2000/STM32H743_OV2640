@@ -149,29 +149,34 @@ static uint8_t run_AI(uint16_t *frameBuffer, bool avr)
 			{
 				for(int m = 0; m < 5; m ++)
 				{
-				uint16_t RGB_sample = frameBuffer[(i*160*5+n)+(j*5+m)]; // усреднение точек - матриув усреднения 5х5 по всей картинке 160х160
-			//	B =B+(float)(RGB_sample & 0x1f) / 32.0;
-			//	G =G+(float)((RGB_sample >> 6) & 0x1f) / 32.0;
-			//	R =R+(float)(RGB_sample >> 11) / 32.0;
-				B = B+ (float)(RGB_sample & 0x1f) / 128.0;
-				G = G+ (float)((RGB_sample >> 5) & 0x3f) / 128.0;
-				R = R+ (float)(RGB_sample >> 11) / 128.0;
+				uint16_t RGB_sample = frameBuffer[(i*160*5+n)+(j*5+m)]; // усреднение точек - матрица усреднения 5х5 по всей картинке 160х160
+				B =B+(float)(RGB_sample & 0x1f) / 32.0;
+				G =G+(float)((RGB_sample >> 6) & 0x1f) / 32.0;
+				R =R+(float)(RGB_sample >> 11) / 32.0;
+			//	B = B+ (float)(RGB_sample & 0x1f) / 128.0;
+			//	G = G+ (float)((RGB_sample >> 5) & 0x3f) / 128.0;
+			//	R = R+ (float)(RGB_sample >> 11) / 128.0;
 				}
 			}
-			float pre_sum = (R + G + B)/25.0;
-			float sum = pre_sum < 0.3 ? (1-pre_sum) : 0.0;
-			input[i][j] = (sum - 0.1307) / 0.3081;
+			input[i][j]=(R + G + B)/(3.0*25.0);
+		//	float pre_sum = (R + G + B)/(25.0);
+		//	float sum = pre_sum < 0.3 ? (1-pre_sum) : 0.0;
+		//	input[i][j] = (sum - 0.1307) / 0.3081;
+
 
 			}
 			else { // Без усреднения точек (просто берется каждая пятая точка)
 				uint16_t RGB_sample = frameBuffer[(i*160*5)+(j*5)];     // берется каждая пятая точка из картинки 160х160
-
-				B = (float)(RGB_sample & 0x1f) / 128.0;
-				G = (float)((RGB_sample >> 5) & 0x3f) / 128.0;
-				R = (float)(RGB_sample >> 11) / 128.0;
-				float pre_sum = (R + G + B);
-     			float sum = pre_sum < 0.3 ? (1-pre_sum) : 0.0;
-				input[i][j] = (sum - 0.1307) / 0.3081;
+				B = (float)(RGB_sample & 0x1f) / 32.0;
+				G = (float)((RGB_sample >> 6) & 0x1f) / 32.0;
+				R = (float)(RGB_sample >> 11) / 32.0;
+				input[i][j]=(R + G + B)/3.0;
+			//	B = (float)(RGB_sample & 0x1f) / 128.0;
+			//	G = (float)((RGB_sample >> 5) & 0x3f) / 128.0;
+			//	R = (float)(RGB_sample >> 11) / 128.0;
+			//	float pre_sum = (R + G + B);
+     		//	float sum = pre_sum < 0.3 ? (1-pre_sum) : 0.0;
+			//	input[i][j] = (sum - 0.1307) / 0.3081;
 			}
 		}
 	}
@@ -278,10 +283,11 @@ int main(void)
   bool key1IsUp;        // текущее состояние кнопки
 
   init_AI(); // Создание нейросети
-  for(int j = 0; j < 10; j ++) // Названия классовна дисплей
+  for(int j = 0; j < 10; j ++) // Названия классов на дисплей
 	   {
 	    ILI9341_DrawText(lable[j], FONT2,220, 70+j*hFONT2, BLACK, LIGHTGREY);
 	    }
+  ILI9341_DrawText("NMIST", FONT4, 220, 50, RED, LIGHTGREY);
   /* USER CODE END 2 */
 
   /* Infinite loop */
